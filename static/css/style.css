@@ -31,14 +31,13 @@
         linear-gradient(180deg, var(--bg-start), var(--bg-end));
       background-attachment: fixed;
     }
+
+
     /* Decorative droplets (subtle) */
-    .droplets:before, .droplets:after{
+    .droplets:before, .droplets:after {
       content:""; position:fixed; inset:0; pointer-events:none; 
-      background:
-        radial-gradient(circle at 20% 30%, #fff6 0 6px, transparent 8px),
-        radial-gradient(circle at 70% 60%, #fff4 0 7px, transparent 9px),
-        radial-gradient(circle at 40% 80%, #fff5 0 5px, transparent 7px);
-      mix-blend-mode:soft-light; opacity:.5;
+      background: radial-gradient(circle at 20% 30%, #00f 0 20%, transparent 70%);
+      mix-blend-mode:soft-light; opacity: 1 !important;
     }
 
     /* --- Utilities --- */
@@ -51,6 +50,78 @@
       border-radius:var(--radius);
       box-shadow:var(--shadow);
     }
+
+
+    .foreground_grass{
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100vw;
+      z-index: 10; /* Adjust as needed */
+      pointer-events: none; /* So it doesn't block clicks */
+    }
+
+    .grass{
+      width: 100%;
+      height:auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .foreground_cloud{
+      position: fixed;
+      left: 0;
+      top:5vh;
+      pointer-events: none;
+    }
+
+    .cloud{
+      width:75%;
+    }
+
+    .foreground_cloud_2{
+      position: fixed;
+      right:0;
+      display: flex;
+      justify-content: end;
+      top:0;
+      pointer-events: none;
+    }
+
+    .cloud_2{
+      width:50%;
+      display: block;
+    }
+
+    .foreground_city{
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 10; /* Adjust as needed */
+      pointer-events: none; /* So it doesn't block clicks */
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .city{
+      height:30vh;
+      object-fit: contain;
+      display: block;
+    }
+
+
+    .city_2{
+      height:30vh;
+      object-fit: contain;
+      display: block;
+    }
+    
+
+
+
     .btn{
       display:inline-flex; align-items:center; gap:.5rem;
       padding:.8rem 1.2rem; border:none; border-radius:999px; cursor:pointer;
@@ -72,7 +143,7 @@
       transform: translateY(-150%); transition: transform .15s ease;
     }
     .skip-link:focus{transform: translateY(0)}
-    nav a{color:inherit; text-decoration:none; font-weight:600}
+    nav a{color:inherit; text-decoration:none; font-weight:500; font-size: 1.8rem;}
     nav .active{text-decoration:underline}
     header .brand{display:flex; align-items:center; gap:.6rem; font-weight:800; letter-spacing:.3px}
     .orb{
