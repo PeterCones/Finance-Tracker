@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'transactions',
     'budgets',
     'goals',
+    'accounts',
 ]
 
 SITE_ID = 1
@@ -123,7 +124,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-
+ACCOUNT_FORMS = {
+    'login': 'accounts.forms.CustomLoginForm',
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
