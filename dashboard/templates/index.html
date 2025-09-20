@@ -1,2 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
+{% block content %}
+<div class="audio-bar">
+      <audio autoplay preload="metadata" class="glass">
+      <source src="{% static 'music/scizzie - aquatic ambience.mp3' %}" type="audio/mp3" />
+      Your browser does not support the audio element.
+      </audio>
+</div>
+{% endblock %}

@@ -17,6 +17,8 @@ class Account (models.Model):
     
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
+
+
 class Category (models.Model):
     name = models.CharField(max_length= 100, unique=True)
     
@@ -30,6 +32,8 @@ class Category (models.Model):
     is_global = models.BooleanField(default=False)
     
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    
+    
     
 class Transaction (models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
