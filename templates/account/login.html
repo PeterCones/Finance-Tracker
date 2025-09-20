@@ -9,7 +9,7 @@
 
 <div class="glass form_container">
     <div class="row">
-      <h3 class="text-center signin-title">{% trans "Sign In" %}</h3>
+      <h1 class="text-center signin-title">{% trans "Sign In" %}</h1>
     </div>
     <div class="row">
         <div class="text-center">
@@ -20,7 +20,7 @@
                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                 {% endif %}
                 <button class="signin-button" type="submit">{% trans "Sign In" %}</button>
-                <p class="signin-links"><a href="{{ signup_url }}">Forgot password?</a></p>
+                <p class="signin-links"><a href="{% url 'account_reset_password' %}">Forgot password?</a></p>
             </form>
         </div>
     </div>
