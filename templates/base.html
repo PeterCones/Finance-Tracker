@@ -1,4 +1,8 @@
 {% load static %}
+{% url 'account_login' as login_url %}
+{% url 'account_signup' as signup_url %}
+{% url 'account_logout' as logout_url %}
+{% url 'admin/' as admin_url %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,7 +38,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
   </head>
-  <body class="d-flex flex-column h-100 main-bg">
+  <body class="d-flex flex-column h-100 main-bg droplets">
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container glass flex-column">
@@ -64,11 +68,21 @@
               <a href="" class="nav-link">Goals</a>
             </li>
             <li class="nav-item">
-              <a href="" class="nav-link">Admin</a>
+              <a href="{% url 'admin:index' %}" class="nav-link">Admin</a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link {% if request.path == logout_url %}active{% endif %}" aria-current="page" href="{% url 'account_logout' %}">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link {% if request.path == signup_url %}active{% endif %}" aria-current="page"
+                href="{% url 'account_signup' %}">Register</a>
             </li>
             <li class="nav-item">
-              <a href="" class="nav-link">Sign-in</a>
+              <a class="nav-link {% if request.path == login_url %}active{% endif %}" aria-current="page" href="{% url 'account_login' %}">Login</a>
             </li>
+            {% endif %}
           </ul>
         </div>
       </div>
@@ -80,5 +94,11 @@
         <img class="city" src="{% static 'images/city.png' %}" alt="city image">
         <img class="city_2" src="{% static 'images/city_2.png' %}" alt="city image">
     </div>
+    <main>
+        {% block content %}
+        <!-- Content Goes here -->
+        {% endblock content %}
+
+    </main>
   </body>
 </html>
