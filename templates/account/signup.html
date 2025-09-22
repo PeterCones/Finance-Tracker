@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% load i18n %}
 
 {% block head_title %}{% trans "Signup" %}{% endblock head_title %}
@@ -25,5 +27,11 @@
           </form>
         </div>
     </div>
+</div>
+<div class="audio-bar">
+      <audio autoplay preload="metadata" class="glass">
+      <source src="{% static 'music/wii-theme-worst.mp3' %}" type="audio/mp3" />
+      Your browser does not support the audio element.
+      </audio>
 </div>
 {% endblock content %}
