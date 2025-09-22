@@ -61,7 +61,7 @@ SITE_ID = 1
 LOGIN_URL = 'account_login'
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_SIGNUP_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = 'account_login'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
