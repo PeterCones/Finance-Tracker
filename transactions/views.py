@@ -11,7 +11,14 @@ from .forms import TransactionForm
 # Create your views here.
 @login_required
 def transaction(request):
-    transactions = Transaction.objects.filter(owner=request.user)
+    transactions = Transaction.objects.filter(owner=request.user).values(
+    'amount',
+    'date', 
+    'account__name',           # Account name
+    'account__type',           # Account type
+    'category__category',      # Category name
+    'category__type'           # Category type
+)
     template = 'transactions.html'
     
     paginator = Paginator(transactions, 4)

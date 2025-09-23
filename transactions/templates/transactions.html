@@ -14,7 +14,7 @@
   </div>
 </div>
 
-<div class="transaction mt-0 container glass">
+<div class="transaction mt-0 container transaction_wrapper glass">
   <div class="row container">
     <div class="col glass">Date</div>
     <div class="col glass">Account</div>
@@ -22,11 +22,12 @@
   </div>
   <div class="row">
     <div class="col-8">
-      <div class="container glass">
-        <table>
-          <thead class="d-flex">
+      <div class=" container transaction_wrapper glass">
+        <table class="glass-table">
+          <thead>
             <th>Date</th>
             <th>Account</th>
+            <th>Type</th>
             <th>Category</th>
             <th>Amount</th>
           </thead>
@@ -35,8 +36,9 @@
             {% for transaction in page_obj %}
             <tr>
               <td>{{ transaction.date }}</td>
-              <td>{{ transaction.account }}</td>
-              <td>{{ transaction.category }}</td>
+              <td>{{ transaction.account__name }}</td>
+              <td>{{ transaction.account__type }}</td>
+              <td>{{ transaction.category__category }}</td>
               <td>£{{ transaction.amount }}</td>
             </tr>
             {% empty %}
@@ -50,14 +52,14 @@
       </div>
     </div>
     <div class="col-4">
-      <div class="container glass">
+      <div class="container glass transaction_month">
         <h3>This Month</h3>
       </div>
     </div>
   </div>
   <div class="row trans_nav">
     <div class="col-8">
-      <div class="container mt-auto glass">
+      <div class="container mt-auto p-0 glass">
         <div class="row">
           <div class="col-4 text-center align-self-center">
             <h4 class="pagination-info mb-0 h-auto"
@@ -66,7 +68,7 @@
           </div>
           <div class="col-8">
             <nav aria-label="page navigation">
-              <ul class="pagination ">
+              <ul class="pagination mb-0">
                 <li
                   class="{% if not page_obj.has_previous %}disabled{% endif %}"
                 >
