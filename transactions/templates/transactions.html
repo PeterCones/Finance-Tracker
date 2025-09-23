@@ -1,4 +1,22 @@
 {% extends "base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
+{% url 'new_transaction' as new_transaction_url %}
 {% block content %}
-{% endblock %}
+<div class="transaction container glass">
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            <h3 class="transactions-title">Transactions</h3>
+        </div>
+        <div class="col d-flex justify-content-center">
+            <a class="signin-button ms-auto text-center" href="{% url 'new_transaction' %}">+ Add Transaction</a>
+        </div>
+    </div>
+</div>
+<div class="audio-bar">
+      <audio autoplay preload="metadata" class="glass">
+      <source src="{% static 'music/transactions.mp3' %}" type="audio/mp3" />
+      Your browser does not support the audio element.
+      </audio>
+</div>
+{% endblock content %}

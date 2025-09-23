@@ -3,6 +3,7 @@
 {% url 'account_signup' as signup_url %}
 {% url 'account_logout' as logout_url %}
 {% url 'home' as home_url %}
+{% url 'transaction' as transaction_url %} 
 
 
 <!DOCTYPE html>
@@ -60,7 +61,7 @@
               <a href="{% url 'home' %}" class="nav-link">Dashboard</a>
             </li>
             <li class="nav-item">
-              <a href="" class="nav-link">Transactions</a>
+              <a href="{% url 'transaction' %}" class="nav-link">Transactions</a>
             </li>
             <li class="nav-item">
               <a href="" class="nav-link">Budgets</a>

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="transaction container glass">
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            <h3 class="transactions-title">New Transaction</h3>
+        </div>
+    </div>
+    <div class="row">
+        <form method="post">
+            {{ TransactionForm | crispy }}
+            {% csrf_token %}
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}
