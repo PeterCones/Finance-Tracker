@@ -20,7 +20,20 @@ class Account (models.Model):
 
 
 class Category (models.Model):
-    name = models.CharField(max_length= 100, unique=True)
+    category_list = [
+    ("Groceries", "Groceries"),
+    ("Eating Out", "Eating Out"),
+    ("Housing", "Housing"),
+    ("Utilities", "Utilities"),
+    ("Transport", "Transport"),
+    ("Shopping", "Shopping"),
+    ("Health & Medical", "Health & Medical"),
+    ("Entertainment", "Entertainment"),
+    ("Savings & Investments", "Savings & Investments"),
+    ("Income", "Income"),
+    ]
+    
+    category = models.CharField(max_length= 100, choices=category_list, default='')
     
     type_choices= [
         ("Income", "Income"),
@@ -39,6 +52,6 @@ class Transaction (models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='transactions')
     category = models.ForeignKey(Category,on_delete=models.CASCADE, related_name='transactions')
-    amount = models.DecimalField(decimal_places=2, max_digits=100)
+    amount = models.DecimalField(decimal_places=9, max_digits=50)
     date = models.DateTimeField(auto_now=True)
     is_recurring = models.BooleanField(default=False)
