@@ -16,7 +16,8 @@ class Account (models.Model):
     type = models.CharField(max_length=4, choices=type_choices, default='')
     
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-
+    def __str__(self):
+        return self.name
 
 
 class Category (models.Model):
@@ -45,13 +46,14 @@ class Category (models.Model):
     is_global = models.BooleanField(default=False)
     
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    
+    def __str__(self):
+        return self.category
     
     
 class Transaction (models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='transactions')
     category = models.ForeignKey(Category,on_delete=models.CASCADE, related_name='transactions')
-    amount = models.DecimalField(decimal_places=9, max_digits=50)
-    date = models.DateTimeField(auto_now=True)
+    amount = models.DecimalField(decimal_places=4, max_digits=50)
+    date = models.DateField()
     is_recurring = models.BooleanField(default=False)

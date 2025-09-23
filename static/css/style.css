@@ -49,6 +49,7 @@
       -webkit-backdrop-filter: blur(14px);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
+      z-index: 999;
     }
 
 

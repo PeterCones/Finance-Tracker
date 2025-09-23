@@ -2,14 +2,21 @@ from django.shortcuts import render
 
 from django.contrib import messages
 
+from .models import Transaction
 from .forms import TransactionForm
 
 # Create your views here.
 
 def transaction(request):
-  return render(request, 'transactions.html')          
-            
-            
+    transaction = Transaction.objects.all().order_by('-date').first()
+    template = 'transactions.html'          
+    
+    return render(
+    request,
+    template,
+    {"transaction":transaction}
+    )      
+                
             
             
             
@@ -20,7 +27,7 @@ def newTransaction(request):
         transaction_form = TransactionForm(data=request.POST)
         if transaction_form.is_valid():
             transaction = transaction_form.save(commit=False)
-            transaction.account = request.user
+            transaction.owner = request.user
             transaction.save()
             messages.add_message(
                 request, messages.SUCCESS,
