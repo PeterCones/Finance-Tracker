@@ -54,6 +54,6 @@ class Transaction (models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='transactions')
     category = models.ForeignKey(Category,on_delete=models.CASCADE, related_name='transactions')
-    amount = models.DecimalField(decimal_places=4, max_digits=50)
+    amount = models.DecimalField(decimal_places=2, max_digits=50)
     date = models.DateField()
     is_recurring = models.BooleanField(default=False)

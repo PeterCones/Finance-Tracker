@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
-
+from django.core.paginator import Paginator
 
 from .models import Transaction
 from .forms import TransactionForm
@@ -12,12 +12,17 @@ from .forms import TransactionForm
 @login_required
 def transaction(request):
     transactions = Transaction.objects.filter(owner=request.user)
-    template = 'transactions.html'          
+    template = 'transactions.html'
+    
+    paginator = Paginator(transactions, 4)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)          
     
     return render(
     request,
     template,
-    {"transactions":transactions}
+    {"page_obj":page_obj,
+     "page_number": page_number}
     )      
                 
             

@@ -1,51 +1,113 @@
-{% extends "base.html" %}
-{% load static %}
-{% load crispy_forms_tags %}
-{% url 'new_transaction' as new_transaction_url %}
-{% block content %}
-<div class="transaction container glass">
-    <div class="row">
-        <div class="col d-flex justify-content-center">
-            <h3 class="transactions-title">Transactions</h3>
-        </div>
-        <div class="col d-flex justify-content-center">
-            <a class="signin-button ms-auto text-center" href="{% url 'new_transaction' %}">+ Add Transaction</a>
-        </div>
+{% extends "base.html" %} {% load static %} {% load crispy_forms_tags %} {% url
+'new_transaction' as new_transaction_url %} {% block content %}
+
+<div class="container row p-0 mt-5">
+  <div class="col d-flex justify-content-between px-0">
+    <h3 class="transactions-title">Transactions</h3>
+  </div>
+  <div class="col d-flex justify-content-center px-0">
+    <a
+      class="transaction-button ms-auto my-auto text-center"
+      href="{% url 'new_transaction' %}"
+      >+ Add Transaction</a
+    >
+  </div>
+</div>
+
+<div class="transaction mt-0 container glass">
+  <div class="row container">
+    <div class="col glass">Date</div>
+    <div class="col glass">Account</div>
+    <div class="col glass">Category</div>
+  </div>
+  <div class="row">
+    <div class="col-8">
+      <div class="container glass">
+        <table>
+          <thead class="d-flex">
+            <th>Date</th>
+            <th>Account</th>
+            <th>Category</th>
+            <th>Amount</th>
+          </thead>
+          {% if user.is_authenticated %}
+          <tbody>
+            {% for transaction in page_obj %}
+            <tr>
+              <td>{{ transaction.date }}</td>
+              <td>{{ transaction.account }}</td>
+              <td>{{ transaction.category }}</td>
+              <td>£{{ transaction.amount }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="4">No transactions found.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+          {% endif %}
+        </table>
+      </div>
     </div>
-    <div class="row">
-        <div class="container glass">
-            <table>
-                <thead class="d-flex">
-                    <th>Date</th>
-                    <th>Account</th>
-                    <th>Category</th>
-                    <th>Amount</th>
+    <div class="col-4">
+      <div class="container glass">
+        <h3>This Month</h3>
+      </div>
+    </div>
+  </div>
+  <div class="row trans_nav">
+    <div class="col-8">
+      <div class="container mt-auto glass">
+        <div class="row">
+          <div class="col-4 text-center align-self-center">
+            <h4 class="pagination-info mb-0 h-auto"
+              >Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages}}</h4
+            >
+          </div>
+          <div class="col-8">
+            <nav aria-label="page navigation">
+              <ul class="pagination ">
+                <li
+                  class="{% if not page_obj.has_previous %}disabled{% endif %}"
+                >
+                  <a class="pagination-btn"
+                    href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% else %}#{% endif %}"
                     
-                </thead>
-                {%  if user.is_authenticated %}
-                <tbody>
-                    {% for transaction in transactions %}
-                    <tr>
-                        <td>{{ transaction.date }}</td>
-                        <td>{{ transaction.account }}</td>
-                        <td>{{ transaction.category }}</td>
-                        <td>£{{ transaction.amount }}</td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="4">No transactions found.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-                {% endif %}
-            </table>
+                    >&lsaquo;</a
+                  >
+                </li>
+
+                <li>
+                    <p class="pagination-number mb-0">{{ page_obj.number }}</p>
+                </li>
+
+                <!-- Next button - always show, but only link if there's a next page -->
+                <li
+                   class="{% if not page_obj.has_next %}disabled{% endif %}"
+                >
+                  <a class="pagination-btn"
+                    href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% else %}#{% endif %}"
+                    >&rsaquo;</a
+                  >
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-<div class="audio-bar">
+      <div class="col-4">
+        <div class="container mt-auto glass">
+            <h4>Balance:</h4>
+        </div>
+      </div>
+    </div>
+    <div class="audio-bar">
       <audio autoplay preload="metadata" class="glass">
-      <source src="{% static 'music/transactions.mp3' %}" type="audio/mp3" />
-      Your browser does not support the audio element.
+        <source src="{% static 'music/transactions.mp3' %}" type="audio/mp3" />
+        Your browser does not support the audio element.
       </audio>
+    </div>
+    {% endblock content %}
+  </div>
 </div>
-{% endblock content %}
