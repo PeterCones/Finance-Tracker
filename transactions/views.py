@@ -2,19 +2,22 @@ from django.shortcuts import render
 
 from django.contrib import messages
 
+from django.contrib.auth.decorators import login_required
+
+
 from .models import Transaction
 from .forms import TransactionForm
 
 # Create your views here.
-
+@login_required
 def transaction(request):
-    transaction = Transaction.objects.all().order_by('-date').first()
+    transactions = Transaction.objects.filter(owner=request.user)
     template = 'transactions.html'          
     
     return render(
     request,
     template,
-    {"transaction":transaction}
+    {"transactions":transactions}
     )      
                 
             
