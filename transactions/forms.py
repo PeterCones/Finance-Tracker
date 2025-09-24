@@ -17,7 +17,7 @@ class TransactionForm(forms.ModelForm):
 
     class Meta:
         model = Transaction
-        fields = ("amount", "account", "category", "date", "is_recurring")
+        fields = ("amount", "account", "category","type", "date", "is_recurring")
         widgets = {
             "date": forms.DateInput(attrs={"type": "date"}),
             # If these are FKs, Select is fine; add classes via Field below

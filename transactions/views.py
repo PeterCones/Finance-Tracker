@@ -17,7 +17,7 @@ def transaction(request):
     'account__name',           # Account name
     'account__type',           # Account type
     'category__category',      # Category name
-    'category__type'           # Category type
+    'type',
 )
     template = 'transactions.html'
     
