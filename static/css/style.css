@@ -100,7 +100,7 @@
       position: fixed;
       left: 0;
       right: 0;
-      bottom: 5vh;
+      bottom: 20vh;
       z-index: 1; /* Adjust as needed */
       pointer-events: none; /* So it doesn't block clicks */
       display: flex;
