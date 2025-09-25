@@ -5,6 +5,7 @@
 {% url 'account_logout' as logout_url %}
 {% url 'budget' as budgets_url %}
 {% url 'transaction' as transaction_url %} 
+{% url 'goal' as goal_url %}
 
 
 <!DOCTYPE html>
@@ -68,7 +69,7 @@
               <a href="{% url 'budget' %}" class="nav-link">Budgets</a>
             </li>
             <li class="nav-item">
-              <a href="" class="nav-link">Goals</a>
+              <a href="{% url 'goal' %}" class="nav-link">Goals</a>
             </li>
             <li class="nav-item">
               <a href="{% url 'admin:index' %}" class="nav-link">Admin</a>

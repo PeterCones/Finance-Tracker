@@ -1,11 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 
 from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 
-from .models import Transaction
+from django_filters.views import FilterView
+from .filters import TransactionFilter
+
+from .models import Transaction, Category
 from .forms import TransactionForm
 
 # Create your views here.
@@ -21,7 +24,7 @@ def transaction(request):
 )
     template = 'transactions.html'
     
-    paginator = Paginator(transactions, 4)
+    paginator = Paginator(transactions, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)          
     
@@ -56,3 +59,13 @@ def newTransaction(request):
          "TransactionForm": TransactionForm,
          },
     )
+    
+class TransactionFilterView(FilterView):
+    filterset_class = TransactionFilter
+    template_name = "transactions.html"
+    paginate_by = 5
+
+    def get_queryset(self):
+        return Transaction.objects.filter(user=self.request.user).select_related("category")
+    
+    
