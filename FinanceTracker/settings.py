@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'budgets',
     'goals',
     'accounts',
+    'django_filters',
 ]
 
 SITE_ID = 1

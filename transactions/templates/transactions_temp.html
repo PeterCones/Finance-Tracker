@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% load static %} {% load crispy_forms_tags %} {% url
+'new_transaction' as new_transaction_url %} {% block content %}
+<form method="get">
+  <fieldset>
+    <legend>Filter by category</legend>
+    {{ filter.form.categories }}
+  </fieldset>
+  <button type="submit">Apply</button>
+  <a href="{% url 'transaction' %}">Reset</a>
+</form>
+
+<ul>
+  {% for t in page_obj %}
+    <li>{{ t.date }} — £{{ t.amount }} — {{ t.account.name }} — {{ t.category.category }} — {{ t.type }}</li>
+  {% empty %}
+    <li>No matches found.</li>
+  {% endfor %}
+</ul>
+
+<nav>
+  {% if page_obj.has_previous %}
+    <a href="?{% if preserved_qs %}{{ preserved_qs }}&{% endif %}page={{ page_obj.previous_page_number }}">Previous</a>
+  {% endif %}
+  <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+  {% if page_obj.has_next %}
+    <a href="?{% if preserved_qs %}{{ preserved_qs }}&{% endif %}page={{ page_obj.next_page_number }}">Next</a>
+  {% endif %}
+</nav>
+{% endblock content %}

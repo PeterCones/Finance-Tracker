@@ -5,7 +5,6 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 
-from django_filters.views import FilterView
 from .filters import TransactionFilter
 
 from .models import Transaction, Category
@@ -14,25 +13,33 @@ from .forms import TransactionForm
 # Create your views here.
 @login_required
 def transaction(request):
-    transactions = Transaction.objects.filter(owner=request.user).values(
-    'amount',
-    'date', 
-    'account__name',           # Account name
-    'account__type',           # Account type
-    'category__category',      # Category name
-    'type',
-)
+    
+    base_qs = (
+        Transaction.objects
+        .filter(owner=request.user)
+        .select_related("account", "category")
+        .order_by("-date", "-id")
+    )
+    
+    filter_qs = TransactionFilter(request.GET or None, queryset=base_qs)
+    
     template = 'transactions.html'
     
-    paginator = Paginator(transactions, 5)
+    paginator = Paginator(filter_qs.qs, 5)
     page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)          
+    page_obj = paginator.get_page(page_number)
+    
+    params = request.GET.copy()
+    params.pop("page", None)
+    preserved_qs = params.urlencode()          
     
     return render(
     request,
     template,
-    {"page_obj":page_obj,
-     "page_number": page_number}
+    {   
+        "filter":filter_qs,
+        "page_obj":page_obj,
+        "preserved_qs": preserved_qs}
     )      
                 
             
@@ -60,12 +67,8 @@ def newTransaction(request):
          },
     )
     
-class TransactionFilterView(FilterView):
-    filterset_class = TransactionFilter
-    template_name = "transactions.html"
-    paginate_by = 5
-
-    def get_queryset(self):
-        return Transaction.objects.filter(user=self.request.user).select_related("category")
-    
-    
+# class TransactionCategory(FilterView):
+#     template_name = "transactions.html"
+#     filterset_class = TransactionFilter
+#     queryset = Transaction.objects.all().prefetch_related("category__category")
+#     paginate_by = 5    

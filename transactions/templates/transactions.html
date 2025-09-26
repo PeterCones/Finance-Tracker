@@ -15,14 +15,14 @@
 </div>
 
 <div class="transaction mt-0 container transaction_wrapper glass">
-  <div class="row container">
-    <div class="col glass">Date</div>
-    <div class="col glass">Account</div>
-    <div class="col glass">Category</div>
+  <div class="row m-1 gap-3">
+    <button class="col-8 glass w-auto" id="date">Date +</button>
+    <button class="col-8 glass w-auto" id="account">Account +</button>
+    <button class="col-8 glass w-auto" id="category">Category +</button>
   </div>
   <div class="row">
     <div class="col-8">
-      <div class=" container transaction_wrapper glass">
+      <div class="container transaction_wrapper glass">
         <table class="glass-table">
           <thead>
             <th>Date</th>
@@ -36,9 +36,9 @@
             {% for transaction in page_obj %}
             <tr>
               <td>{{ transaction.date }}</td>
-              <td>{{ transaction.account__name }}</td>
-              <td>{{ transaction.account__type }}</td>
-              <td>{{ transaction.category__category }}</td>
+              <td>{{ transaction.account }}</td>
+              <td>{{ transaction.type }}</td>
+              <td>{{ transaction.category }}</td>
               <td>£{{ transaction.amount }}</td>
             </tr>
             {% empty %}
@@ -62,32 +62,28 @@
       <div class="container mt-auto p-0 glass">
         <div class="row">
           <div class="col-4 text-center align-self-center">
-            <h4 class="pagination-info mb-0 h-auto"
-              >Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages}}</h4
-            >
+            <h4 class="pagination-info mb-0 h-auto">
+              Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages}}
+            </h4>
           </div>
           <div class="col-8">
-            <nav aria-label="page navigation">
+            <nav aria-label="transactions navigation">
               <ul class="pagination mb-0">
                 <li
                   class="{% if not page_obj.has_previous %}disabled{% endif %}"
                 >
-                  <a class="pagination-btn"
+                  <a
+                    class="pagination-btn"
                     href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% else %}#{% endif %}"
-                    
                     >&lsaquo;</a
                   >
                 </li>
-
                 <li>
-                    <p class="pagination-number mb-0">{{ page_obj.number }}</p>
+                  <p class="pagination-number mb-0">{{ page_obj.number }}</p>
                 </li>
-
-                <!-- Next button - always show, but only link if there's a next page -->
-                <li
-                   class="{% if not page_obj.has_next %}disabled{% endif %}"
-                >
-                  <a class="pagination-btn"
+                <li class="{% if not page_obj.has_next %}disabled{% endif %}">
+                  <a
+                    class="pagination-btn"
                     href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% else %}#{% endif %}"
                     >&rsaquo;</a
                   >
@@ -98,18 +94,17 @@
         </div>
       </div>
     </div>
-      <div class="col-4">
-        <div class="container mt-auto glass">
-            <h4>Balance:</h4>
-        </div>
+    <div class="col-4">
+      <div class="container mt-auto glass">
+        <h4>Balance:</h4>
       </div>
     </div>
-    <div class="audio-bar">
-      <audio autoplay preload="metadata" class="glass">
-        <source src="{% static 'music/transactions.mp3' %}" type="audio/mp3" />
-        Your browser does not support the audio element.
-      </audio>
-    </div>
-    {% endblock content %}
+  </div>
+  <div class="audio-bar">
+    <audio autoplay preload="metadata" class="glass">
+      <source src="{% static 'music/transactions.mp3' %}" type="audio/mp3" />
+      Your browser does not support the audio element.
+    </audio>
   </div>
 </div>
+{% endblock content %}

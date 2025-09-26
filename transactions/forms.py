@@ -72,4 +72,3 @@ class TransactionForm(forms.ModelForm):
                 Submit("submit", "Save Transaction", css_class="btn btn-primary w-100 mt-3")
             )
         )
-

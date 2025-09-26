@@ -340,6 +340,10 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
   height: 30vh;
 }
 
+.filter{
+  width:10rem;
+}
+
 .transaction_month{
   height:30vh;
 }
@@ -419,6 +423,7 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
 /* Bottom navigation container */
 .pagination {
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   gap: 20px;
