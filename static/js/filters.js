@@ -1,21 +1,28 @@
-// const dateButton = document.getElementById("date");
-// const accountButton = document.getElementById("account");
-// const categoryButton = document.getElementById("category");
+const dateButton = document.getElementById("date");
+const accountButton = document.getElementById("account");
+const categoryButton = document.getElementById("category");
+const categoryFilter = document.getElementById("filterPopover")
 
-// const dropDown = document.createElement("ul");
 
-// dropDown.innerHTML
+function open(){
+    categoryFilter.hidden=false
+}
 
-// document.addEventListener("DOMContentLoaded", function () {
-//   dropDown.className = "transaction_filters";
-//   dateButton.parentNode.appendChild(dropDown);
+function close(){
+    categoryFilter.hidden=true
+}
 
-//   dateButton.addEventListener("click", function () {
-//     dropDown.innerHTML = fetch("/api/hello/")
-//       .then((response) => response.json())
-//       .then((data) => {
-//         console.log(data.message); // "Hello from Django!"
-//       })
-//       .catch((error) => console.error("Chaos!:", error));
-//   });
-// });
+document.addEventListener("DOMContentLoaded",  () => {
+    categoryButton.addEventListener("click", () => {
+    categoryFilter.hidden ? open() : close();
+    })
+});
+
+document.addEventListener('click', (e) => {
+    if (!categoryFilter.hidden && !categoryFilter.contains(e.target) && e.target !== categoryButton) {
+        close();
+    }
+});
+
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+

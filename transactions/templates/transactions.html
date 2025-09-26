@@ -16,10 +16,40 @@
 
 <div class="transaction mt-0 container transaction_wrapper glass">
   <div class="row m-1 gap-3">
-    <button class="col-8 glass w-auto" id="date">Date +</button>
-    <button class="col-8 glass w-auto" id="account">Account +</button>
-    <button class="col-8 glass w-auto" id="category">Category +</button>
+    <button class="col-8 glass w-auto" id="date">Date ▾</button>
+    <button class="col-8 glass w-auto" id="account">Account ▾</button>
+    <button class="col-8 glass w-auto" id="category">Category ▾</button>
   </div>
+  <div id="filterPopover"
+     class="filter-popover"
+     role="dialog"
+     aria-modal="false"
+     aria-labelledby="filterToggle"
+     hidden>
+  <form id="filterForm" method="get">
+    <fieldset>
+      <legend class="sr-only">Filter by category</legend>
+      {% for opt in filter.form.categories %}
+        <label class="chk">
+          {{ opt.tag }} <span>{{ opt.choice_label }}</span>
+        </label><br>
+      {% endfor %}
+    </fieldset>
+
+    {# Preserve other query params except page & categories (since we're sending them via the checkboxes) #}
+    {% for key, val in request.GET.items %}
+      {% if key != 'page' and key != 'categories' %}
+        <input type="hidden" name="{{ key }}" value="{{ val }}">
+      {% endif %}
+    {% endfor %}
+
+    <div class="actions">
+      <button type="submit">Apply</button>
+      <a class="reset" href="{% url 'transaction' %}">Reset</a>
+    </div>
+  </form>
+</div>
+
   <div class="row">
     <div class="col-8">
       <div class="container transaction_wrapper glass">
@@ -107,4 +137,5 @@
     </audio>
   </div>
 </div>
+<script src="/static/js/filters.js"></script>
 {% endblock content %}
