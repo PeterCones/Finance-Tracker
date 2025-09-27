@@ -17,10 +17,67 @@
 <div class="transaction mt-0 container transaction_wrapper glass">
   <div class="row m-1 gap-3">
     <button class="col-8 glass w-auto" id="date">Date ▾</button>
+    <div id="date_filter"
+     class="filter-popover"
+     role="dialog"
+     aria-modal="false"
+     aria-labelledby="filterToggle"
+     hidden>
+  <form class="filterForm" method="get">
+    <fieldset>
+      <legend class="sr-only">Filter by date range</legend>
+      <div class="date-range">
+        <label for="{{ filter.form.date.0.id_for_label }}">From:</label>
+        {{ filter.form.date.0 }}
+      </div>
+      <div class="date-range">
+        <label for="{{ filter.form.date.1.id_for_label }}">To:</label>
+        {{ filter.form.date.1 }}
+      </div>
+    </fieldset>
+    {% for key, val in request.GET.items %}
+      {% if key != 'page' and key != 'date_min' and key != 'date_max' %}
+        <input type="hidden" name="{{ key }}" value="{{ val }}">
+      {% endif %}
+    {% endfor %}
+
+    <div class="actions">
+      <button type="submit">Apply</button>
+      <a class="reset" href="{% url 'transaction' %}">Reset</a>
+    </div>
+  </form>
+</div>
     <button class="col-8 glass w-auto" id="account">Account ▾</button>
+    <div id="account_filter"
+     class="filter-popover"
+     role="dialog"
+     aria-modal="false"
+     aria-labelledby="filterToggle"
+     hidden>
+  <form class="filterForm" method="get">
+    <fieldset>
+      <legend class="sr-only">Filter by account</legend>
+      {% for opt in filter.form.account %}
+        <label class="chk">
+          {{ opt.tag }} <span>{{ opt.choice_label }}</span>
+        </label><br>
+      {% endfor %}
+    </fieldset>
+    {% for key, val in request.GET.items %}
+      {% if key != 'page' and key != 'account' %}
+        <input type="hidden" name="{{ key }}" value="{{ val }}">
+      {% endif %}
+    {% endfor %}
+
+    <div class="actions">
+      <button type="submit">Apply</button>
+      <a class="reset" href="{% url 'transaction' %}">Reset</a>
+    </div>
+  </form>
+</div>
     <button class="col-8 glass w-auto" id="category">Category ▾</button>
   </div>
-  <div id="filterPopover"
+  <div id="category_filter"
      class="filter-popover"
      role="dialog"
      aria-modal="false"
@@ -104,7 +161,7 @@
                 >
                   <a
                     class="pagination-btn"
-                    href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% else %}#{% endif %}"
+                    href="{% if page_obj.has_previous %}?{{ preserved_qs }}&page={{ page_obj.previous_page_number }}{% else %}#{% endif %}"
                     >&lsaquo;</a
                   >
                 </li>
@@ -114,7 +171,7 @@
                 <li class="{% if not page_obj.has_next %}disabled{% endif %}">
                   <a
                     class="pagination-btn"
-                    href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% else %}#{% endif %}"
+                    href="{% if page_obj.has_next %}?{{ preserved_qs }}&page={{ page_obj.next_page_number }}{% else %}#{% endif %}"
                     >&rsaquo;</a
                   >
                 </li>

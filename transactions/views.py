@@ -23,6 +23,8 @@ def transaction(request):
     
     filter_qs = TransactionFilter(request.GET or None, queryset=base_qs)
     
+    
+    
     template = 'transactions.html'
     
     paginator = Paginator(filter_qs.qs, 5)
