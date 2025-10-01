@@ -30,7 +30,12 @@
         radial-gradient(900px 600px at 110% 0%, #ffffff33, transparent 60%),
         linear-gradient(180deg, var(--bg-start), var(--bg-end));
       background-attachment: fixed;
+
     }
+
+    /* Nav styling */
+
+
 
 
     /* Decorative droplets (subtle) */
@@ -58,8 +63,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      width: 100vw;
-      z-index: 2; /* Adjust as needed */
+      width:100% ;
       pointer-events: none; /* So it doesn't block clicks */
     }
 
@@ -68,18 +72,19 @@
       height:auto;
       object-fit: contain;
       display: block;
+      z-index: 1;
     }
 
     .foreground_cloud{
       position: fixed;
-      left: 0;
+      left: 2rem;
       top:5vh;
       pointer-events: none;
     }
 
     .cloud{
-      width:75%;
-      z-index: -1;
+      width:40%;
+      z-index: 1;
     }
 
     .foreground_cloud_2{
@@ -92,7 +97,7 @@
     }
 
     .cloud_2{
-      width:50%;
+      width:25%;
       display: block;
     }
 
@@ -101,23 +106,23 @@
       left: 0;
       right: 0;
       bottom: 20vh;
-      z-index: 1; /* Adjust as needed */
+      z-index: 999; /* Adjust as needed */
       pointer-events: none; /* So it doesn't block clicks */
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      opacity: 65%;
+      opacity: 50%;
     }
 
     .city{
-      height:30vh;
+      height:20vh;
       object-fit: contain;
       display: block;
     }
 
 
     .city_2{
-      height:30vh;
+      height:20vh;
       object-fit: contain;
       display: block;
     }
@@ -291,7 +296,7 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
 
 .transaction {
   margin-top: 5vh;
-  min-height: 50vh;
+  min-height: 68vh;
 }
 
 /* Page Title (e.g., Transactions header) */
@@ -349,7 +354,7 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
 }
 
 .trans_nav{
-  margin-top: 2vh;
+  margin-top: 12rem;
 }
 
 /* Table container with glass effect */
