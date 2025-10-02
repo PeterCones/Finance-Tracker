@@ -412,18 +412,16 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
   cursor:alias;
 }
 
-/* Rounded corners for first and last cells */
-.glass-table td:first-child,
-.glass-table th:first-child {
-  border-top-left-radius: 12px;
-  border-bottom-left-radius: 12px;
+th{
+  text-align: center;
 }
 
-.glass-table td:last-child,
-.glass-table th:last-child {
-  border-top-right-radius: 12px;
-  border-bottom-right-radius: 12px;
+.transaction_list_button{
+  width: 4rem;
+  text-align: center;
 }
+
+
 
 /* filters */
 .filter-popover { position:absolute; z-index:10; margin-top:.5rem; padding:1rem; width:280px; border:1px solid #ddd; border-radius:.75rem; background:#fff; box-shadow:0 10px 25px rgba(0,0,0,.08); }

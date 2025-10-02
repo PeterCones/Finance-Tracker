@@ -1,4 +1,4 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,redirect, get_object_or_404
 
 from django.contrib import messages
 
@@ -60,6 +60,9 @@ def newTransaction(request):
                 request, messages.SUCCESS,
                 'Your transaction has been sucessfully added'
             )
+            return redirect("transaction")
+
+            
     
     return render(
         request,
@@ -69,3 +72,27 @@ def newTransaction(request):
          },
     )
     
+    
+# edit transaction
+
+def transaction_edit(request, transaction_id):
+    qs = Transaction.objects.filter(owner=request.user)
+    transaction = get_object_or_404(qs, id=transaction_id)
+
+    if request.method == 'POST':        
+        form = TransactionForm(request.POST,instance=transaction)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Transaction Updated!')
+            return redirect('transaction')
+        messages.add_message(request, messages.ERROR, 'Error updating Transaction!')
+    else:
+        form = TransactionForm(instance=transaction)
+    
+    return render(
+        request,
+        "new_transaction.html",
+        {
+            "TransactionForm": form,  # keep key consistent with your create view
+        },
+    )

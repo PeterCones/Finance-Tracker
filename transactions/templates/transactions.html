@@ -1,7 +1,9 @@
-{% extends "base.html" %} {% load static %} {% load crispy_forms_tags %} {% url
-'new_transaction' as new_transaction_url %} {% block content %}
+{% extends "base.html" %} {% load static %} {% load crispy_forms_tags %} 
+{% url 'new_transaction' as new_transaction_url %}
 
-<div class="container row p-0 mt-5">
+{% block content %}
+
+<div class="container row p-0 mt-0">
   <div class="col d-flex justify-content-between px-0">
     <h3 class="transactions-title">Transactions</h3>
   </div>
@@ -110,23 +112,27 @@
   <div class="row">
     <div class="col-8">
       <div class="container transaction_wrapper glass">
-        <table class="glass-table">
+        <table class="glass_table">
           <thead>
-            <th>Date</th>
-            <th>Account</th>
-            <th>Type</th>
-            <th>Category</th>
-            <th>Amount</th>
+            <th class="px-3">Date</th>
+            <th class="px-3">Account</th>
+            <th class="px-3">Type</th>
+            <th class="px-3">Category</th>
+            <th class="px-3">Amount</th>
+            <th class="px-3">Edit</th>
+            <th class="px-3">Delete</th>
           </thead>
           {% if user.is_authenticated %}
           <tbody>
             {% for transaction in page_obj %}
             <tr>
-              <td>{{ transaction.date }}</td>
-              <td>{{ transaction.account }}</td>
-              <td>{{ transaction.type }}</td>
-              <td>{{ transaction.category }}</td>
-              <td>£{{ transaction.amount }}</td>
+              <td class="text-center">{{ transaction.date }}</td>
+              <td class="text-center">{{ transaction.account }}</td>
+              <td class="text-center">{{ transaction.type }}</td>
+              <td class="text-center">{{ transaction.category }}</td>
+              <td class="text-center">£{{ transaction.amount }}</td>
+              <td class="transaction_list_button"><a href="{% url 'edit_transaction' transaction.id %}"> <img class="w-100" src="{% static 'images/edit.png' %}" alt=""> </a></td>
+              <td class="transaction_list_button"><a><img class="w-100" src="{% static 'images/delete.png' %}" alt=""> </a></td>
             </tr>
             {% empty %}
             <tr>
@@ -187,7 +193,7 @@
       </div>
     </div>
   </div>
-  <div class="audio-bar">
+  <div class="audio-bar invisible">
     <audio autoplay preload="metadata" class="glass">
       <source src="{% static 'music/transactions.mp3' %}" type="audio/mp3" />
       Your browser does not support the audio element.
