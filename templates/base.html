@@ -33,11 +33,17 @@
     <!-- Bootstrap CSS -->
 
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
       rel="stylesheet"
-      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
       crossorigin="anonymous"
     />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+      crossorigin="anonymous"
+    ></script>
 
     <!-- Favicon -->
 
@@ -102,10 +108,10 @@
     <div class="foreground_grass"><img class="grass" src="{% static 'images/grass_changed.png' %}" alt="grass image"></div>
     <div class="foreground_cloud"><img class="cloud" src="{% static 'images/cloud.png' %}" alt="cloud image"></div>
     <div class="foreground_cloud_2"><img class="cloud_2" src="{% static 'images/cloud_2.png' %}" alt="cloud image"></div>
-    <div class="foreground_city">
-        <img class="city" src="{% static 'images/city.png' %}" alt="city image">
-        <img class="city_2" src="{% static 'images/city_2.png' %}" alt="city image">
-    </div>
+    <!-- <div class="foreground_city"> -->
+        <!-- <img class="city" src="{% static 'images/city.png' %}" alt="city image"> -->
+        <!-- <img class="city_2" src="{% static 'images/city_2.png' %}" alt="city image"> -->
+    <!-- </div> -->
     <main>
         {% block content %}
         <!-- Content Goes here -->

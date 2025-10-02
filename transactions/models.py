@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 
 # Create your models here.
@@ -30,6 +31,19 @@ class Category (models.Model):
     def __str__(self):
         return self.category
     
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['owner', 'category'],
+                condition=Q(is_global=False),
+                name='uniq_category_per_owner',
+            ),
+            models.UniqueConstraint(
+                fields=['category'],
+                condition=Q(is_global=True),
+                name='uniq_global_category_name',
+            ),
+        ]
     
 class Transaction (models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
