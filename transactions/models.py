@@ -21,21 +21,8 @@ class Account (models.Model):
 
 
 class Category (models.Model):
-    category_list = [
-    ("Groceries", "Groceries"),
-    ("Eating Out", "Eating Out"),
-    ("Housing", "Housing"),
-    ("Utilities", "Utilities"),
-    ("Transport", "Transport"),
-    ("Shopping", "Shopping"),
-    ("Health & Medical", "Health & Medical"),
-    ("Entertainment", "Entertainment"),
-    ("Savings & Investments", "Savings & Investments"),
-    ("Income", "Income"),
-    ]
-    
-    category = models.CharField(max_length= 100, choices=category_list, default='')
-    
+
+    category = models.CharField(max_length= 100, default='')
     
     is_global = models.BooleanField(default=False)
     

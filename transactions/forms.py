@@ -1,5 +1,5 @@
 from django import forms
-from .models import Transaction
+from .models import Transaction, Category
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, Submit, HTML
 from crispy_forms.bootstrap import FormActions
@@ -72,3 +72,14 @@ class TransactionForm(forms.ModelForm):
                 Submit("submit", "Save Transaction", css_class="btn btn-primary w-100 mt-3")
             )
         )
+        
+
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name', 'description']  # adjust based on your Category model
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        }
