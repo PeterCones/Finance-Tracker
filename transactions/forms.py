@@ -78,8 +78,7 @@ class TransactionForm(forms.ModelForm):
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ['name', 'description']  # adjust based on your Category model
+        fields = ('category',)  # adjust based on your Category model
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'category': forms.TextInput(attrs={'class': 'form-control'}),
         }

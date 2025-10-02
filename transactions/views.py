@@ -69,8 +69,3 @@ def newTransaction(request):
          },
     )
     
-# class TransactionCategory(FilterView):
-#     template_name = "transactions.html"
-#     filterset_class = TransactionFilter
-#     queryset = Transaction.objects.all().prefetch_related("category__category")
-#     paginate_by = 5    
