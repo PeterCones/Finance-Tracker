@@ -37,11 +37,29 @@ def transaction(request):
         balance=Sum(
             Case(
                 When(type=Transaction.TYPE_INCOME, then=F('amount')),
-                When(type=Transaction.TYPE_OUTGOING, then=-F('amount')),
+                When(type=Transaction.TYPE_EXPENSE, then=-F('amount')),
                 output_field=DecimalField(max_digits=12, decimal_places=2),
             )
         )
     )['balance'] or 0
+    
+    income = base_qs.aggregate(
+        income=Sum(
+            Case(
+                When (type=Transaction.TYPE_INCOME, then =F('amount')),
+                output_field=DecimalField(max_digits=12, decimal_places=2),
+            )
+        )
+    )['income'] or 0
+    
+    expense = base_qs.aggregate(
+        income=Sum(
+            Case(
+                When (type=Transaction.TYPE_EXPENSE, then =F('amount')),
+                output_field=DecimalField(max_digits=12, decimal_places=2),
+            )
+        )
+    )['income'] or 0
 
     return render(
         request,
@@ -51,6 +69,8 @@ def transaction(request):
             "page_obj": page_obj,
             "preserved_qs": preserved_qs,
             "balance": balance,
+            "income":income,
+            "expense":expense,
         },
     )      
                 
