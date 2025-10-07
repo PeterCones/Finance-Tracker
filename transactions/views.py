@@ -96,3 +96,11 @@ def transaction_edit(request, transaction_id):
             "TransactionForm": form,  # keep key consistent with your create view
         },
     )
+    
+def transaction_delete(request, transaction_id):
+    qs = Transaction.objects.filter(owner=request.user)
+    transaction = get_object_or_404(qs, id=transaction_id)
+    
+    transaction.delete()
+    messages.add_message(request, messages.SUCCESS, 'Transaction deleted!')
+    return redirect('transaction')  

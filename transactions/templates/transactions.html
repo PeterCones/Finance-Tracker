@@ -132,7 +132,7 @@
               <td class="text-center">{{ transaction.category }}</td>
               <td class="text-center">£{{ transaction.amount }}</td>
               <td class="transaction_list_button"><a href="{% url 'edit_transaction' transaction.id %}"> <img class="w-100" src="{% static 'images/edit.png' %}" alt=""> </a></td>
-              <td class="transaction_list_button"><a><img class="w-100" src="{% static 'images/delete.png' %}" alt=""> </a></td>
+              <td class="transaction_list_button"><a href="{% url 'delete_transaction' transaction.id %}"><img class="w-100" src="{% static 'images/delete.png' %}" alt=""> </a></td>
             </tr>
             {% empty %}
             <tr>
