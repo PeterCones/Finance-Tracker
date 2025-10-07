@@ -131,8 +131,16 @@
               <td class="text-center">{{ transaction.type }}</td>
               <td class="text-center">{{ transaction.category }}</td>
               <td class="text-center">£{{ transaction.amount }}</td>
-              <td class="transaction_list_button"><a href="{% url 'edit_transaction' transaction.id %}"> <img class="w-100" src="{% static 'images/edit.png' %}" alt=""> </a></td>
-              <td class="transaction_list_button"><a href="{% url 'delete_transaction' transaction.id %}"><img class="w-100" src="{% static 'images/delete.png' %}" alt=""> </a></td>
+              <td class="transaction_list_button">
+                <a href="{% url 'edit_transaction' transaction.id %}">
+                  <img class="w-100" src="{% static 'images/edit.png' %}" alt="">
+                </a>
+              </td>
+              <td class="transaction_list_button">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#transaction_delete{{ transaction.id }}">
+                  <img class="w-100" src="{% static 'images/delete.png' %}" alt="">
+                </a>
+              </td>
             </tr>
             {% empty %}
             <tr>
@@ -201,4 +209,28 @@
   </div>
 </div>
 <script src="/static/js/filters.js"></script>
+
+{% for transaction in page_obj %}
+<div class="modal fade" id="transaction_delete{{ transaction.id }}" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="POST" action="{% url 'delete_transaction' transaction.id %}">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title">Confirm Execution</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          Are you absolutely sure you want to delete transaction <strong>#{{ transaction.id }}</strong>?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn " data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn ">Yes, Delete It</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
 {% endblock content %}
