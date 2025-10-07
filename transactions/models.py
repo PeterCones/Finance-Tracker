@@ -49,11 +49,14 @@ class Transaction (models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='transactions')
     category = models.ForeignKey(Category,on_delete=models.CASCADE, related_name='transactions')
-    type_choices= [
-        ("Income", "Income"),
-        ("Outgoing", "Outgoing"),
+    TYPE_INCOME = 'IN'
+    TYPE_OUTGOING = 'OUT'
+    TYPE_CHOICES = [
+        (TYPE_INCOME, 'Income'),
+        (TYPE_OUTGOING, 'Outgoing'),
     ]
-    type = models.CharField(max_length=8, choices=type_choices, default='')
+    type = models.CharField(max_length=8, choices=TYPE_CHOICES,
+        default=TYPE_OUTGOING,)
     amount = models.DecimalField(decimal_places=2, max_digits=50)
     date = models.DateField()
     is_recurring = models.BooleanField(default=False)
