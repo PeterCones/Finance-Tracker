@@ -208,7 +208,7 @@
   transition: all 0.25s ease-in-out;
 }
 
-.signin-button:hover {
+.signin-button, .transaction-button:hover {
   transform: translateY(-2px) scale(1.02);
   background: linear-gradient(145deg, rgba(0, 230, 190, 0.9), rgba(0, 160, 240, 0.9));
   box-shadow: 
@@ -296,7 +296,7 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
 
 .transaction {
   margin-top: 5vh;
-  min-height: 68vh;
+  min-height: 60vh;
 }
 
 /* Page Title (e.g., Transactions header) */
@@ -338,11 +338,12 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
     0 4px 15px rgba(0, 200, 255, 0.5),
     inset 0 1px 2px rgba(255, 255, 255, 0.6);
 
-  transition: all 0.25s ease-in-out;
+  transition: transform .08s ease;
 }
 
+
 .transaction_wrapper{
-  height: 30vh;
+  height: 25vh;
 }
 
 .filter{
