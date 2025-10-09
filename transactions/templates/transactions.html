@@ -155,9 +155,15 @@
     <div class="col-4">
       <div class="container glass transaction_month">
         <h3>This Month</h3>
-        <div></div>
-        <p>Income: {{income}}</p>
-        <p>Expenses: {{expense}}</p>
+        <div>
+          <canvas 
+            id="moneyPie"
+            data-labels='{{ pie_labels_json|safe }}'
+            data-values='{{ pie_values_json|safe }}'
+            style="width:100%;height:420px">
+          </canvas>
+        </div>
+        <p class="mt-1">Income: {{income}} Expenses: {{expense}}</p>
       </div>
     </div>
   </div>
@@ -170,7 +176,7 @@
               Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages}}
             </h4>
           </div>
-          <div class="col-8 text-center">
+          <div class="col-8 text-center p-3">
             <nav aria-label="transactions navigation">
               <ul class="pagination mb-0">
                 <li
@@ -199,9 +205,9 @@
       </div>
     </div>
     <div class="col-4">
-      <div class="container mt-auto glass">
+      <div class="container mt-auto glass p-1 text-center">
         <h4>Balance:</h4>
-          <p>{{ balance }}</p>
+          <p class="m-0">{{ balance }}</p>
       </div>
     </div>
   </div>
@@ -236,5 +242,6 @@
   </div>
 </div>
 {% endfor %}
-
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <script src="{% static 'js/charts.js' %}"></script>
 {% endblock content %}

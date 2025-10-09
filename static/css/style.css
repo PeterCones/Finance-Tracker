@@ -38,7 +38,7 @@
     .nav-link {
       font-size: 2rem;        /* Big, friendly text */
       font-weight: 500;         /* Bold and chunky */
-      color: var(--text) !important;          /* White base */
+      color: #ffffff;           /* White base */
       text-shadow: 
         0px 2px 4px rgba(0, 0, 0, 0.15),   /* Soft dark glow */
         0px 4px 8px rgba(0, 0, 0, 0.10);   /* Extra depth */
@@ -314,7 +314,7 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
 
 .transaction {
   margin-top: 5vh;
-  min-height: 60vh;
+  max-height: 45vh;
 }
 
 /* Page Title (e.g., Transactions header) */
@@ -361,7 +361,7 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
 
 
 .transaction_wrapper{
-  height: 25vh;
+  height: 100%;
 }
 
 .filter{
@@ -373,7 +373,7 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
 }
 
 .trans_nav{
-  margin-top: 12rem;
+  margin-top: 1rem;
 }
 
 /* Table container with glass effect */

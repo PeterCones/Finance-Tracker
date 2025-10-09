@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect, get_object_or_404
 
 from django.contrib import messages
 
-from django.db.models import Sum, Case, When, F, DecimalField
+from django.db.models import Sum, Case, When, F, DecimalField, Value
 
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -11,6 +11,8 @@ from .filters import TransactionFilter
 
 from .models import Transaction, Category
 from .forms import TransactionForm
+
+import json
 
 # Create your views here.
 @login_required
@@ -24,7 +26,7 @@ def transaction(request):
     filter_qs = TransactionFilter(request.GET or None, queryset=base_qs)
 
     template = 'transactions.html'
-    paginator = Paginator(filter_qs.qs, 5)
+    paginator = Paginator(filter_qs.qs, 8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -42,24 +44,30 @@ def transaction(request):
             )
         )
     )['balance'] or 0
-    
+
     income = base_qs.aggregate(
         income=Sum(
             Case(
-                When (type=Transaction.TYPE_INCOME, then =F('amount')),
+                When(type=Transaction.TYPE_INCOME, then=F('amount')),
                 output_field=DecimalField(max_digits=12, decimal_places=2),
             )
         )
     )['income'] or 0
-    
+
     expense = base_qs.aggregate(
-        income=Sum(
+        expense=Sum(
             Case(
-                When (type=Transaction.TYPE_EXPENSE, then =F('amount')),
+                When(type=Transaction.TYPE_EXPENSE, then=F('amount')),
                 output_field=DecimalField(max_digits=12, decimal_places=2),
             )
         )
-    )['income'] or 0
+    )['expense'] or 0
+
+    pie_labels = ["Income", "Expenses"]
+    pie_values = [float(income or 0), float(expense or 0)]
+
+    pie_labels_json = json.dumps(pie_labels)
+    pie_values_json = json.dumps(pie_values)
 
     return render(
         request,
@@ -69,8 +77,10 @@ def transaction(request):
             "page_obj": page_obj,
             "preserved_qs": preserved_qs,
             "balance": balance,
-            "income":income,
-            "expense":expense,
+            "income": income,
+            "expense": expense,
+            "pie_labels_json": pie_labels_json,
+            "pie_values_json": pie_values_json,
         },
     )      
                 
