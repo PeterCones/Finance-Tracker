@@ -47,6 +47,7 @@ class Category (models.Model):
     
 class Transaction (models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    description = models.TextField(max_length=20)
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='transactions')
     category = models.ForeignKey(Category,on_delete=models.CASCADE, related_name='transactions')
     TYPE_INCOME = 'In'
@@ -59,4 +60,3 @@ class Transaction (models.Model):
         default=TYPE_EXPENSE,)
     amount = models.DecimalField(decimal_places=2, max_digits=50)
     date = models.DateField()
-    is_recurring = models.BooleanField(default=False)

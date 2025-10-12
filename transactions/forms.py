@@ -17,15 +17,12 @@ class TransactionForm(forms.ModelForm):
 
     class Meta:
         model = Transaction
-        fields = ("amount", "account", "category","type", "date", "is_recurring")
+        fields = ("amount", "description","account", "category","type", "date")
         widgets = {
             "date": forms.DateInput(attrs={"type": "date"}),
             # If these are FKs, Select is fine; add classes via Field below
             # "account": forms.Select(),
             # "category": forms.Select(),
-        }
-        labels = {
-            "is_recurring": "Recurring?",
         }
         help_texts = {
             "amount": "Enter a positive amount (GBP).",
@@ -39,9 +36,6 @@ class TransactionForm(forms.ModelForm):
             # Append rather than replace to keep any widget defaults
             existing = field.widget.attrs.get("class", "signin-input")
             field.widget.attrs["class"] = f"{existing} form-control".strip()
-
-        # Checkboxes shouldn't have 'form-control'
-        self.fields["is_recurring"].widget.attrs["class"] = "form-check-input"
 
         self.helper = FormHelper()
         self.helper.form_method = "post"
@@ -58,14 +52,12 @@ class TransactionForm(forms.ModelForm):
                 css_class="g-3",
             ),
             Row(
-                Column(Field("date", css_class="mb-3"), css_class="col-md-6"),
-                Column(
-                    # Checkbox gets a different wrapper to match Bootstrap
-                    HTML('<div class="form-check mt-2">'),
-                    Field("is_recurring", wrapper_class="form-check"),
-                    HTML('<label class="form-check-label" for="id_is_recurring">Recurring?</label></div>'),
-                    css_class="col-md-6 d-flex align-items-center"
-                ),
+                Column(Field("description", css_class="mb-3"), css_class="col-md-6"),
+                Column(Field("type", css_class="mb-3"), css_class="col-md-6"),
+                css_class="g-3",
+            ),
+            Row(
+                Column(Field("date", css_class="mb-3"), css_class="col-md-12"),
                 css_class="g-3",
             ),
             FormActions(

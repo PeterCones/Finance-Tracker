@@ -110,41 +110,44 @@
 </div>
 
   <div class="row">
-    <div class="col-8">
-      <div class="container transaction_wrapper glass">
-        <table>
+    <div class="col-8 glass">
+      <div class="container transaction_wrapper text-center">
+        <table class="glass-table">
           <thead>
-            <th class="px-3">Date</th>
-            <th class="px-3">Account</th>
-            <th class="px-3">Type</th>
-            <th class="px-3">Category</th>
-            <th class="px-3">Amount</th>
-            <th class="px-3">Edit</th>
-            <th class="px-3">Delete</th>
+            <tr>
+              <th>Date</th>
+              <th>Account</th>
+              <th>Type</th>
+              <th>Category</th>
+              <th>Amount</th>
+              <th>Actions</th>
+            </tr>
           </thead>
           {% if user.is_authenticated %}
           <tbody>
             {% for transaction in page_obj %}
             <tr>
-              <td class="text-center">{{ transaction.date }}</td>
-              <td class="text-center">{{ transaction.account }}</td>
-              <td class="text-center">{{ transaction.type }}</td>
-              <td class="text-center">{{ transaction.category }}</td>
-              <td class="text-center">£{{ transaction.amount }}</td>
-              <td class="transaction_list_button">
-                <a href="{% url 'edit_transaction' transaction.id %}">
-                  <img class="w-100" src="{% static 'images/edit.png' %}" alt="">
-                </a>
+              <td class="date-col">{{ transaction.date|date:"M d" }}</td>
+              <td class="account-col">{{ transaction.account }}</td>
+              <td class="type-col {% if transaction.type == 'In' %}type-income{% else %}type-expense{% endif %}">{{ transaction.type }}</td>
+              <td class="category-col">{{ transaction.category }}</td>
+              <td class="amount-col {% if transaction.type == 'In' %}amount-income{% else %}amount-expense{% endif %}">
+                £{{ transaction.amount|floatformat:2 }}
               </td>
-              <td class="transaction_list_button">
-                <a href="#" data-bs-toggle="modal" data-bs-target="#transaction_delete{{ transaction.id }}">
-                  <img class="w-100" src="{% static 'images/delete.png' %}" alt="">
+              <td>
+                <a href="{% url 'edit_transaction' transaction.id %}" class="action-btn" title="Edit">
+                  <img src="{% static 'images/edit.png' %}" alt="Edit">
+                </a>
+                <a href="#" class="action-btn" data-bs-toggle="modal" data-bs-target="#transaction_delete{{ transaction.id }}" title="Delete">
+                  <img src="{% static 'images/delete.png' %}" alt="Delete">
                 </a>
               </td>
             </tr>
             {% empty %}
-            <tr class="">
-              <td colspan="8" class="text-center pt-5">No transactions found.</td>
+            <tr>
+              <td colspan="6" class="text-center py-4" style="font-size: 16px; color: #7f8c8d; font-style: italic;">
+                No transactions found.
+              </td>
             </tr>
             {% endfor %}
           </tbody>

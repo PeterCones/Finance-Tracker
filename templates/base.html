@@ -59,7 +59,7 @@
   <body class="d-flex flex-column h-100 main-bg droplets">
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light">
-      <div class="container glass flex-column">
+      <div class="container p-2 glass flex-column">
         <button
           class="navbar-toggler"
           type="button"
@@ -74,16 +74,16 @@
         <div class="collapse navbar-collapse" id="navbarText">
           <ul class="navbar-nav ">
             <li class="nav-item">
-              <a href="{% url 'home' %}" class="nav-link">Dashboard</a>
+              <a href="{% url 'home' %}" class="nav-link {% if request.path == home_url %}active{% endif %}">Dashboard</a>
             </li>
             <li class="nav-item">
-              <a href="{% url 'transaction' %}" class="nav-link">Transactions</a>
+              <a href="{% url 'transaction' %}" class="nav-link {% if request.path == transaction_url %}active{% endif %}">Transactions</a>
             </li>
             <li class="nav-item">
-              <a href="{% url 'budget' %}" class="nav-link">Budgets</a>
+              <a href="{% url 'budget' %}" class="nav-link {% if request.path == budgets_url %}active{% endif %}">Budgets</a>
             </li>
             <li class="nav-item">
-              <a href="{% url 'goal' %}" class="nav-link">Goals</a>
+              <a href="{% url 'goal' %}" class="nav-link {% if request.path == goal_url %}active{% endif %}">Goals</a>
             </li>
             <li class="nav-item">
               <a href="{% url 'admin:index' %}" class="nav-link">Admin</a>
