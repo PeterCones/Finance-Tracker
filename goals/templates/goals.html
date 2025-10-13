@@ -1,5 +1,4 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends "base.html" %} {% load static %} 
 {% block content %}
 {% url 'new_goal' as new_goal_url %}
 <div class="container row p-0 mt-0">
@@ -12,37 +11,89 @@
 </div>
 
 <div class="container glass budget mt-0">
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+  <!-- Use a proper Bootstrap row; 1 col on xs, 3 cols on md+ -->
+  <div class="row row-cols-1 row-cols-md-3 g-3 align-items-stretch h-100">
     {% for item in page_obj %}
       <div class="col">
         <div class="glass p-3 h-100 d-flex flex-column">
           <h5 class="mb-1 budget_heading">{{ item.name }}</h5>
-          <div class="text-muted mb-2">
-            Target: £{{ item.target_amount }} • Saved: £{{ item.saved_amount }}
+          <div class="text-muted mb-2 p-1 budget_heading">Target: £{{ item.target_amount }}</div>
+
+          <div class="d-flex gap-2">
+            <a class="action-btn-goals" href="#" data-bs-toggle="modal" data-bs-target="#goalInc{{ item.id }}">
+              <img src="{% static 'images/increase.png' %}" alt="increase" />
+            </a>
+            <a class="action-btn-goals" href="#" data-bs-toggle="modal" data-bs-target="#goalDec{{ item.id }}">
+              <img src="{% static 'images/decrease.png' %}" alt="decrease" />
+            </a>
           </div>
-          <div class="mt-auto d-flex gap-1">
-            <a class="action-btn-goals" href="#" data-bs-toggle="modal" data-bs-target="#goalInc{{ item.id }}"><img src="{% static 'images/increase.png'  %}" alt="increase"></a>
-            <a class="action-btn-goals" href="#" data-bs-toggle="modal" data-bs-target="#goalDec{{ item.id }}"><img src="{% static 'images/decrease.png'  %}" alt="decrease"></a>
+
+          <div class="mt-3">
+            <p class="mb-0 p-1 budget_heading">End Date: {{ item.target_date }}</p>
           </div>
-          <div class="mt-2">
-            <p>Days Left: {{item.days_left}}</p>
+
+          <div>
+            <div
+              class="progress-bar-container w-100"
+              id="goal-progress-{{ item.id }}"
+              data-created-at="{{ item.created_at|date:'Y-m-d' }}"
+              data-target-date="{{ item.target_date|date:'Y-m-d' }}"
+              data-target="{{ item.target_amount }}"
+              data-remaining="{{ item.actual_amount }}">
+            </div>
           </div>
+
+          <div class="goal-chart-wrap mt-5">
+            <canvas
+              class="goal-line"
+              id="goal-line-{{ item.id }}"
+              data-start-date="{{ item.created_at|date:'Y-m-d' }}"
+              data-end-date="{{ item.target_date|date:'Y-m-d' }}"
+              data-start-remaining="{{ item.target_amount }}"
+              data-current-remaining="{{ item.actual_amount }}">
+            </canvas>
+          </div>
+          <div class="mt-3">
+            <p class="mb-0 p-1 budget_heading">Amount Saved: £{{ item.saved_amount }}</p>
+          </div>
+          <div class="mt-3 gap-2">
+          <a class="action-btn-goals" href="#" data-bs-toggle="modal" data-bs-target="#goalDec{{ item.id }}">
+              <img src="{% static 'images/edit.png' %}" alt="decrease" />
+            </a>
+            <a class="action-btn-goals" href="#" data-bs-toggle="modal" data-bs-target="#goalDec{{ item.id }}">
+              <img src="{% static 'images/delete.png' %}" alt="decrease" />
+            </a>
+            </div>
         </div>
       </div>
     {% empty %}
-      <div class="col"><h2 class="text-center budget_heading">You haven’t added any goals yet.</h2></div>
+      <div class="col">
+        <h2 class="text-center budget_heading">You haven’t added any goals yet.</h2>
+      </div>
     {% endfor %}
   </div>
 </div>
+<div class="text-center p-3 glass container mt-3">
+<nav aria-label="transactions navigation">
+  <ul class="pagination mb-0">
+    <li class="{% if not page_obj.has_previous %}disabled{% endif %}">
+      <a class="pagination-btn" href="{% if page_obj.has_previous %}?{{ preserved_qs }}&page={{ page_obj.previous_page_number }}{% else %}#{% endif %}">&lsaquo;</a>
+    </li>
+    <li><p class="pagination-number mb-0">{{ page_obj.number }}</p></li>
+    <li class="{% if not page_obj.has_next %}disabled{% endif %}">
+      <a class="pagination-btn" href="{% if page_obj.has_next %}?{{ preserved_qs }}&page={{ page_obj.next_page_number }}{% else %}#{% endif %}">&rsaquo;</a>
+    </li>
+  </ul>
+</nav>
+</div>
 
-{# Modals per goal #}
 {% for item in page_obj %}
 <div class="modal fade" id="goalInc{{ item.id }}" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-sm modal-dialog-centered">
     <div class="modal-content">
       <form method="post" action="{% url 'adjust_goal' item.id %}">
         {% csrf_token %}
-        <input type="hidden" name="operation" value="inc">
+        <input type="hidden" name="operation" value="inc" />
         <div class="modal-header">
           <h5 class="modal-title">Increase “{{ item.name }}”</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -65,7 +116,7 @@
     <div class="modal-content">
       <form method="post" action="{% url 'adjust_goal' item.id %}">
         {% csrf_token %}
-        <input type="hidden" name="operation" value="dec">
+        <input type="hidden" name="operation" value="dec" />
         <div class="modal-header">
           <h5 class="modal-title">Decrease “{{ item.name }}”</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -83,4 +134,15 @@
   </div>
 </div>
 {% endfor %}
-{% endblock content %}
+
+<!-- libs -->
+<script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.umd.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3" defer></script>
+<!-- scripts -->
+<script src="{% static 'js/goal_countdown.js' %}" defer></script>
+<script src="{% static 'js/goal_progress.js' %}" defer></script>
+{% endblock %}
+
+
+

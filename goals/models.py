@@ -13,6 +13,7 @@ class Goal(models.Model):
     target_date = models.DateField()
     saved_amount = models.DecimalField(decimal_places=2, max_digits=100)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateField(auto_now_add=True)  # start date for charts
     
     def clean(self):
         # App-level guard (used by ModelForm)

@@ -337,7 +337,7 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
 
 .transaction {
   margin-top: 5vh;
-  min-height: 45vh;
+  min-height: 55vh;
 }
 
 /* Page Title (e.g., Transactions header) */
@@ -385,16 +385,13 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
 
 
 .transaction_wrapper{
-  min-height:30vh;
+  height:40vh;
 }
 
 .filter{
   width:10rem;
 }
 
-.transaction_month{
-  min-height:30vh;
-}
 
 .trans_nav{
   margin-top: 1rem;
@@ -492,6 +489,7 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
 
 .glass-table .category-col {
   font-style: italic;
+  font-weight: 700;
   color: #5d6d7e;
 }
 
@@ -525,15 +523,14 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
 }
 
 .action-btn img {
-  width: 120px;
-  height: 50px;
+  width: auto;
+  height: 45px;
   display: block;
 }
 
 
 .action-btn-goals {
   display: inline-block;
-  margin: 0 4px;
   transition: all 0.2s ease;
   text-decoration: none;
 }
@@ -543,8 +540,25 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
 }
 
 .action-btn-goals img {
-  width: 53px;
-  height: 32px;
+  width: auto;
+  height: 40px;
+  display: block;
+}
+
+
+.action-btn-transaction {
+  display: inline-block;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.action-btn-transaction:hover {
+  transform: translateY(-1px);
+}
+
+.action-btn-transaction img {
+  width: auto;
+  height: 40px;
   display: block;
 }
 
@@ -593,7 +607,7 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
 
 .budget {
   margin-top: 5vh;
-  min-height: 45vh;
+  height: 55vh;
 }
 
 .budget_heading {      /* Big, friendly text */
@@ -605,10 +619,27 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
   letter-spacing: 0.5px;    /* A little breathing room */
   font-family: 'Nunito', 'Segoe UI', sans-serif; /* Rounded, modern */
   z-index: 1;
+  margin: 5px;
 }
 
 #progressBarContainer {
     width: 80%;
     margin: 20px auto; /* Center the bar */
     height: 30px;
+}
+
+.goal-line{
+  height: 170px;
+}
+
+.goal-chart-wrap {
+  position: relative;
+  height: 180px;
+  width: 100%;
+  overflow: hidden;
+}
+.goal-chart-wrap > canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
 }

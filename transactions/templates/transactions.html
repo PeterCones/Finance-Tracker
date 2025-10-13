@@ -16,7 +16,7 @@
   </div>
 </div>
 
-<div class="transaction mt-0 container transaction_wrapper glass">
+<div class="transaction mt-0 container glass">
   <div class="row m-1 gap-3">
     <button class="col-8 glass w-auto" id="date">Date ▾</button>
     <div id="date_filter"
@@ -135,10 +135,10 @@
                 £{{ transaction.amount|floatformat:2 }}
               </td>
               <td>
-                <a href="{% url 'edit_transaction' transaction.id %}" class="action-btn" title="Edit">
+                <a href="{% url 'edit_transaction' transaction.id %}" class="action-btn-transaction" title="Edit">
                   <img src="{% static 'images/edit.png' %}" alt="Edit">
                 </a>
-                <a href="#" class="action-btn" data-bs-toggle="modal" data-bs-target="#transaction_delete{{ transaction.id }}" title="Delete">
+                <a href="#" class="action-btn-transaction" data-bs-toggle="modal" data-bs-target="#transaction_delete{{ transaction.id }}" title="Delete">
                   <img src="{% static 'images/delete.png' %}" alt="Delete">
                 </a>
               </td>
@@ -156,7 +156,7 @@
       </div>
     </div>
     <div class="col-4">
-      <div class="container glass transaction_month">
+      <div class="container glass transaction_wrapper">
         <h3>This Month</h3>
         <div>
           <canvas 
@@ -171,49 +171,15 @@
     </div>
   </div>
   <div class="row trans_nav">
-    <div class="col-8 align-content-center">
-      <div class="container mt-auto p-0 glass">
-        <div class="row">
-          <div class="col-4 text-center align-self-center">
-            <h4 class="pagination-info mb-0 h-auto">
-              Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages}}
-            </h4>
-          </div>
-          <div class="col-8 text-center p-3">
-            <nav aria-label="transactions navigation">
-              <ul class="pagination mb-0">
-                <li
-                  class="{% if not page_obj.has_previous %}disabled{% endif %}"
-                >
-                  <a
-                    class="pagination-btn"
-                    href="{% if page_obj.has_previous %}?{{ preserved_qs }}&page={{ page_obj.previous_page_number }}{% else %}#{% endif %}"
-                    >&lsaquo;</a
-                  >
-                </li>
-                <li>
-                  <p class="pagination-number mb-0">{{ page_obj.number }}</p>
-                </li>
-                <li class="{% if not page_obj.has_next %}disabled{% endif %}">
-                  <a
-                    class="pagination-btn"
-                    href="{% if page_obj.has_next %}?{{ preserved_qs }}&page={{ page_obj.next_page_number }}{% else %}#{% endif %}"
-                    >&rsaquo;</a
-                  >
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-4">
+    <div class="col p-0 pe-2">
       <div class="container mt-auto glass p-1 text-center">
         <h4>Balance:</h4>
           <p class="m-0">{{ balance }}</p>
       </div>
     </div>
   </div>
+
+  
   <div class="audio-bar invisible">
     <audio autoplay preload="metadata" class="glass">
       <source src="{% static 'music/transactions.mp3' %}" type="audio/mp3" />
@@ -221,8 +187,29 @@
     </audio>
   </div>
 </div>
-<script src="/static/js/filters.js"></script>
-
+<div class="text-center p-3 glass container mt-3">
+  <nav aria-label="transactions navigation">
+    <ul class="pagination mb-0">
+      <li class="{% if not page_obj.has_previous %}disabled{% endif %}">
+        <a
+          class="pagination-btn"
+          href="{% if page_obj.has_previous %}?{{ preserved_qs }}&page={{ page_obj.previous_page_number }}{% else %}#{% endif %}"
+          >&lsaquo;</a
+        >
+      </li>
+      <li>
+        <p class="pagination-number mb-0">{{ page_obj.number }}</p>
+      </li>
+      <li class="{% if not page_obj.has_next %}disabled{% endif %}">
+        <a
+          class="pagination-btn"
+          href="{% if page_obj.has_next %}?{{ preserved_qs }}&page={{ page_obj.next_page_number }}{% else %}#{% endif %}"
+          >&rsaquo;</a
+        >
+      </li>
+    </ul>
+  </nav>
+</div>
 {% for transaction in page_obj %}
 <div class="modal fade" id="transaction_delete{{ transaction.id }}" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
@@ -245,6 +232,7 @@
   </div>
 </div>
 {% endfor %}
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
-  <script src="{% static 'js/charts.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4" defer></script>
+  <script src="{% static 'js/transaction_charts.js' %}" defer></script>
+  <script src="/static/js/transaction_filters.js"></script>
 {% endblock content %}

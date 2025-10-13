@@ -17,7 +17,7 @@
   <div class="glass mb-2 p-2">
     <div class="flex justify-between flex-row items-center">
       <div>
-        <h2 class="budget_heading">{{ item.budget.category }}</h2>
+        <h3 class="budget_heading">{{ item.budget.category }}</h3>
         <p class="budget_heading">{{ item.budget.month_label }}</p>
         <p class="budget_heading">
           Progress:£{{ item.progress.spent|floatformat:2 }} of £{{item.progress.limit|floatformat:2 }}
@@ -53,8 +53,6 @@
     You haven’t added any budgets yet.
   </h2>
   {% endfor %}
-
-  <!-- Pagination controls -->
 </div>
 <div class="text-center p-3 glass container mt-3">
   <nav aria-label="transactions navigation">
@@ -101,7 +99,7 @@
   </div>
 </div>
 {% endfor %}
-<script src="{% static 'js/progress.js' %}" defer></script>
+<script src="{% static 'js/budget_progress.js' %}" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
 
 {% endblock content %}

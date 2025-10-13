@@ -8,7 +8,7 @@ from .forms import GoalForm, AdjustGoalForm
 @login_required
 def goals(request):
     qs = Goal.objects.filter(owner=request.user).order_by("-id")
-    page_obj = Paginator(qs, 9).get_page(request.GET.get("page"))
+    page_obj = Paginator(qs, 3).get_page(request.GET.get("page"))
     return render(request, "goals.html", {"page_obj": page_obj})
 
 @login_required
