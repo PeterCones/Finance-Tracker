@@ -5,6 +5,8 @@ from crispy_forms.layout import Layout, Row, Column, Submit, HTML
 from crispy_forms.bootstrap import FormActions
 from crispy_forms.layout import Field
 from datetime import date
+from django.utils.safestring import mark_safe
+
 
 
 class GoalForm(forms.ModelForm):
@@ -40,8 +42,20 @@ class GoalForm(forms.ModelForm):
                 "min": date.today().isoformat(),
             })
 
+        # Styling
         for _, field in self.fields.items():
-            field.widget.attrs["class"] = (field.widget.attrs.get("class", "") + " form-control").strip()
+            existing = field.widget.attrs.get("class", "signin-input")
+            field.widget.attrs["class"] = f"{existing} form-control".strip()
+
+        # Ensure all labels get the 'budget_heading' class
+        for name, field in self.fields.items():
+            label = field.label or name.replace("_", " ").title()
+            if field.required:
+                field.label = mark_safe(
+                    f'<span class="budget_heading">{label}<span class="asteriskField">*</span></span>'
+                )
+            else:
+                field.label = mark_safe(f'<span class="budget_heading">{label}</span>')
 
         self.helper = FormHelper()
         self.helper.form_method = "post"

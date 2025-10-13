@@ -9,7 +9,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-user-id="{{ request.user.id|default_if_none:'' }}">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -52,6 +52,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
   </head>
   <body class="d-flex flex-column h-100 main-bg droplets">
+  <audio id="site-audio" controls preload="auto" controlslist="nodownload noplaybackrate"></audio>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container p-2 glass flex-column">
@@ -127,5 +128,6 @@
         {% endblock extra_modals %}
 
     </main>
+    <script src="{% static 'js/audio_progress.js' %}" defer></script>
   </body>
 </html>

@@ -15,9 +15,7 @@
 </div>
 
 <div class="transaction mt-0 container glass">
-  <!-- Make row positioned so popovers can be absolutely placed under buttons -->
   <div class="row m-1 gap-3 filters-row" id="filters-row">
-    <!-- Date -->
     <button type="button" class="col-8 glass w-auto filter-toggle monthly" id="date" data-filter="date_filter">Date ▾</button>
     <div id="date_filter" class="filter-popover" role="dialog" hidden>
       <form class="filterForm" method="get">
@@ -99,28 +97,28 @@
         <table class="glass-table">
           <thead>
             <tr>
-              <th class="monthly">Date</th>
-              <th class="monthly">Account</th>
-              <th class="monthly">Type</th>
-              <th class="monthly">Category</th>
-              <th class="monthly">Description</th>
-              <th class="monthly">Amount</th>
-              <th class="monthly">Actions</th>
+              <th class="monthly ">Date</th>
+              <th class="monthly ">Account</th>
+              <th class="monthly ">Type</th>
+              <th class="monthly ">Category</th>
+              <th class="monthly ">Description</th>
+              <th class="monthly ">Amount</th>
+              <th class="monthly ">Actions</th>
             </tr>
           </thead>
           {% if user.is_authenticated %}
-          <tbody>
+          <tbody >
             {% for transaction in page_obj %}
             <tr>
               <td class="date-col">{{ transaction.date|date:"M d" }}</td>
-              <td class="account-col">{{ transaction.account }}</td>
+              <td class="account-col" >{{ transaction.account }}</td>
               <td class="type-col {% if transaction.type == 'In' %}type-income{% else %}type-expense{% endif %}">{{ transaction.type }}</td>
-              <td class="category-col">{{ transaction.category }}</td>
+              <td class="category-col ">{{ transaction.category }}</td>
               <td class="description-col">{{transaction.description}}</td>
-              <td class="amount-col {% if transaction.type == 'In' %}amount-income{% else %}amount-expense{% endif %}">
+              <td class="amount-col  {% if transaction.type == 'In' %}amount-income{% else %}amount-expense{% endif %}">
                 £{{ transaction.amount|floatformat:2 }}
               </td>
-              <td>
+              <td >
                 <a href="{% url 'edit_transaction' transaction.id %}" class="action-btn-transaction" title="Edit">
                   <img src="{% static 'images/edit.png' %}" alt="Edit">
                 </a>
@@ -170,12 +168,6 @@
   </div>
 </div>
   
-  <!-- <div class="audio-bar invisible">
-    <audio autoplay preload="metadata" class="glass">
-      <source src="{% static 'music/transactions.mp3' %}" type="audio/mp3" />
-      Your browser does not support the audio element.
-    </audio>
-  </div> -->
   
 <!-- Pagination -->
 <div class="text-center p-1 glass container mt-3">

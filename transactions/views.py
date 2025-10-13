@@ -26,7 +26,7 @@ def transaction(request):
     filter_qs = TransactionFilter(request.GET or None, queryset=base_qs)
 
     template = 'transactions.html'
-    paginator = Paginator(filter_qs.qs, 3)
+    paginator = Paginator(filter_qs.qs, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 

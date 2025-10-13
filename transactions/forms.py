@@ -4,6 +4,8 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, Submit, HTML
 from crispy_forms.bootstrap import FormActions
 from crispy_forms.layout import Field 
+from django.utils.safestring import mark_safe
+
 
 class TransactionForm(forms.ModelForm):
     amount = forms.DecimalField(
@@ -31,11 +33,20 @@ class TransactionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # Optional: set default CSS classes on all fields
-        for name, field in self.fields.items():
-            # Append rather than replace to keep any widget defaults
+    # Styling
+        for _, field in self.fields.items():
             existing = field.widget.attrs.get("class", "signin-input")
             field.widget.attrs["class"] = f"{existing} form-control".strip()
+
+        # Ensure all labels get the 'budget_heading' class
+        for name, field in self.fields.items():
+            label = field.label or name.replace("_", " ").title()
+            if field.required:
+                field.label = mark_safe(
+                    f'<span class="budget_heading">{label}<span class="asteriskField">*</span></span>'
+                )
+            else:
+                field.label = mark_safe(f'<span class="budget_heading">{label}</span>')
 
         self.helper = FormHelper()
         self.helper.form_method = "post"
