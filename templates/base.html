@@ -128,6 +128,23 @@
         {% endblock extra_modals %}
 
     </main>
+    {% if messages %}
+    <div class="toast-messages" role="status" aria-live="polite" aria-atomic="true">
+      {% for message in messages %}
+        <div class="toast-message glass {{ message.tags }}">
+          <div class="toast-text">{{ message }}</div>
+          <button class="toast-close" type="button" aria-label="Close" onclick="this.closest('.toast-message').remove()">×</button>
+        </div>
+      {% endfor %}
+    </div>
+    <script>
+      // auto-fade messages after a short delay
+      setTimeout(() => {
+        document.querySelectorAll('.toast-message').forEach(el => el.classList.add('toast-hide'));
+        setTimeout(() => { document.querySelectorAll('.toast-message.toast-hide').forEach(el => el.remove()); }, 400);
+      }, 5000);
+    </script>
+    {% endif %}
     <script src="{% static 'js/audio_progress.js' %}" defer></script>
   </body>
 </html>
