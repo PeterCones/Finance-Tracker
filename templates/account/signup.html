@@ -23,15 +23,9 @@
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
             {% endif %}
             <button class="signin-button" type="submit">{% trans "Sign Up" %} &raquo;</button>
-            <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+            <p class="budget_heading">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
           </form>
         </div>
     </div>
-</div>
-<div class="audio-bar">
-      <audio autoplay preload="metadata" class="glass">
-      <source src="{% static 'music/signup.mp3' %}" type="audio/mp3" />
-      Your browser does not support the audio element.
-      </audio>
 </div>
 {% endblock content %}

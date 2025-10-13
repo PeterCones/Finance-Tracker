@@ -142,9 +142,9 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_FORMS = {
-    'login': 'accounts.forms.CustomLoginForm',
-    'signup': 'accounts.forms.CustomSignupForm',
-    'reset_password': 'accounts.forms.CustomPasswordForm',
+    "login": "accounts.forms.CustomLoginForm",
+    "signup": "accounts.forms.CustomSignupForm",
+    "reset_password": "accounts.forms.CustomPasswordForm",
 }
 
 # Crispy Forms Configuration

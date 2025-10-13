@@ -16,13 +16,17 @@
   };
   const stateKey = () => pageKey() + STATE_SUFFIX;
 
-  const defaultSrc = () => {
+  function getDefaultSrc() {
     const p = window.location.pathname || '/';
-    const base = '/static/music/';
+    const base = (window.STATIC_URL || '/static/') + 'music/';
+
     if (p.startsWith('/transactions')) return base + 'transactions.mp3';
-    if (p.startsWith('/budgets')) return base + 'dashboard.mp3';
+    if (p.startsWith('/budgets'))      return base + 'budgets.mp3';
+    if (p.startsWith('/goals'))        return base + 'goals.mp3';
+    if (p.startsWith('/accounts/signup') || p.startsWith('/accounts/login'))
+                                      return base + 'signup.mp3';
     return base + 'dashboard.mp3';
-  };
+  }
 
   const loadNum = (k, d = 0) => {
     try { const v = localStorage.getItem(k); const n = v == null ? NaN : parseFloat(v); return Number.isFinite(n) ? n : d; }
@@ -37,7 +41,7 @@
     if (!audio) return;
     audio.controls = true; audio.preload = 'auto';
 
-    const src = document.body?.getAttribute('data-audio-src') || defaultSrc();
+    const src = document.body?.getAttribute('data-audio-src') || getDefaultSrc();
     if (!audio.src || !audio.src.endsWith(src)) audio.src = src;
 
     audio.addEventListener('loadedmetadata', () => {
