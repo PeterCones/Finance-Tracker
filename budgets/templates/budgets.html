@@ -54,8 +54,20 @@
   </h2>
   {% endfor %}
 </div>
-<div class="text-center p-3 glass container mt-3">
-  <nav aria-label="transactions navigation">
+
+<!-- Pagination -->
+<div class="text-center p-1 glass container mt-3">
+  <nav aria-label="transactions navigation" class="row">
+
+    <!-- Page count -->
+     <div class="col-4 pagination-text-wrapper">
+     <ul class="list-unstyled mb-0">
+      <li>
+        <span class="monthly pagination-text">{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+      </li>
+      </ul>
+      </div>
+    <div class="col-4">
     <ul class="pagination mb-0">
       <li class="{% if not page_obj.has_previous %}disabled{% endif %}">
         <a
@@ -75,8 +87,11 @@
         >
       </li>
     </ul>
+    </div>
   </nav>
 </div>
+
+
 {% for item in page_obj %}
 <div class="modal fade" id="budget_delete{{ item.id }}" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
@@ -88,11 +103,11 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          Are you absolutely sure you want to delete budget <strong>#{{ item.id }}</strong>?
+          Are you absolutely sure you want to delete budget <strong>{{ item.category }}</strong>?
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn " data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn ">Yes, Delete It</button>
+        <div class="modal-footer flex-nowrap">
+          <button type="button" class="transaction-button " data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="transaction-button delete ">Yes, Delete It</button>
         </div>
       </form>
     </div>

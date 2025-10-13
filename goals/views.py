@@ -55,3 +55,37 @@ def adjust_goal(request, goal_id):
     verb = "Added" if op == "inc" else "Removed"
     messages.success(request, f"{verb} £{amt} for “{goal.name}”.")
     return redirect("goals")
+
+
+@login_required
+def goal_edit(request, goal_id):
+    qs = Goal.objects.filter(owner=request.user)
+    goal = get_object_or_404(qs, id=goal_id)
+
+    if request.method == 'POST':        
+        form = GoalForm(request.POST,instance=goal)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Goal Updated!')
+            return redirect('goals')
+        messages.add_message(request, messages.ERROR, 'Error updating Goal!')
+    else:
+        form = GoalForm(instance=goal)
+    
+    return render(
+        request,
+        "new_goal.html",
+        {
+            "form": form,  # keep key consistent with your create view
+        },
+    )
+
+@login_required    
+def goal_delete(request, goal_id):
+    qs = Goal.objects.filter(owner=request.user)
+    goal = get_object_or_404(qs, id=goal_id)
+    if request.method == "POST":
+        goal.delete()
+        messages.add_message(request, messages.SUCCESS, 'Goal deleted!')
+        return redirect('goals')  
+    return redirect('goals')

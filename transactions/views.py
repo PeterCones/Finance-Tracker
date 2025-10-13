@@ -114,7 +114,7 @@ def newTransaction(request):
     
     
 # edit transaction
-
+@login_required
 def transaction_edit(request, transaction_id):
     qs = Transaction.objects.filter(owner=request.user)
     transaction = get_object_or_404(qs, id=transaction_id)
@@ -136,7 +136,8 @@ def transaction_edit(request, transaction_id):
             "TransactionForm": form,  # keep key consistent with your create view
         },
     )
-    
+
+@login_required    
 def transaction_delete(request, transaction_id):
     qs = Transaction.objects.filter(owner=request.user)
     transaction = get_object_or_404(qs, id=transaction_id)

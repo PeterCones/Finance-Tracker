@@ -142,16 +142,16 @@
       </div>
     </div>
     <div class="col-4">
-      <div class="container glass transaction_wrapper">
-        <h3 class="monthly">This Month</h3>
+      <div class="container glass transaction_wrapper py-2">
+        <h3 class="text-center monthly">This Month</h3>
         <div>
           <canvas id="moneyPie" data-labels='{{ pie_labels_json|safe }}' data-values='{{ pie_values_json|safe }}' style="width:100%;height:420px"></canvas>
         </div>
         <div class="text-center budget_heading">
         <p class="mt-1 monthly">Income:</p>
-        <p class="mt-1 monthly">{{income}}</p>
+        <p class="mt-1 monthly amount-positive">{{income}}</p>
         <p class="mt-1 monthly">Expenses:</p>
-        <p class="mt-1 monthly">{{expense}}</p>
+        <p class="mt-1 monthly amount-negative">{{expense}}</p>
       </div>
       </div>
     </div>
@@ -159,11 +159,16 @@
   <div class="row trans_nav">
     <div class="col p-0 pe-2">
       <div class="container mt-auto glass p-1 text-center">
-        <h4 class=" monthly pt-1">Balance: £{{ balance }}</h4>
+        <h4 class="monthly pt-1">
+          Balance:
+          <span class="{% if balance > 0 %}amount-positive{% elif balance < 0 %}amount-negative{% else %}amount-zero{% endif %}">
+            £{{ balance|floatformat:2 }}
+          </span>
+        </h4>
       </div>
     </div>
   </div>
-
+</div>
   
   <!-- <div class="audio-bar invisible">
     <audio autoplay preload="metadata" class="glass">
@@ -171,9 +176,20 @@
       Your browser does not support the audio element.
     </audio>
   </div> -->
-</div>
-<div class="text-center p-3 glass container mt-3">
-  <nav aria-label="transactions navigation">
+  
+<!-- Pagination -->
+<div class="text-center p-1 glass container mt-3">
+  <nav aria-label="transactions navigation" class="row">
+
+    <!-- Page count -->
+     <div class="col-4 pagination-text-wrapper">
+     <ul class="list-unstyled mb-0">
+      <li>
+        <span class="monthly pagination-text">{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+      </li>
+      </ul>
+      </div>
+    <div class="col-4">
     <ul class="pagination mb-0">
       <li class="{% if not page_obj.has_previous %}disabled{% endif %}">
         <a
@@ -193,6 +209,7 @@
         >
       </li>
     </ul>
+    </div>
   </nav>
 </div>
 {% endblock content %}
@@ -214,9 +231,9 @@
         <div class="modal-body">
           Are you absolutely sure you want to delete transaction <strong>#{{ transaction.description }}</strong>?
         </div>
-        <div class="modal-footer">
-          <button type="button" class="transaction_button" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-danger">Yes, Delete It</button>
+        <div class="modal-footer flex-nowrap">
+          <button type="button" class="transaction-button" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="transaction-button delete">Yes, Delete It</button>
         </div>
       </form>
     </div>
