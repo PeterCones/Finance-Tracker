@@ -498,7 +498,7 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
 .glass-table .amount-col {
   font-weight: 700;
   font-size: 15px;
-  font-family: 'Courier New', monospace;
+  font-family: 'Nunito', sans-serif;
 }
 
 /* Income/Expense color coding for amount */

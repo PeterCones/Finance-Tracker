@@ -98,3 +98,39 @@ def new_budget(request):
         form = budgetForm(user=request.user)
 
     return render(request, "new_budget.html", {"form": form})
+
+
+
+
+# edit transaction
+
+def budget_edit(request, budget_id):
+    qs = Budget.objects.filter(owner=request.user)
+    budget = get_object_or_404(qs, id=budget_id)
+
+    if request.method == 'POST':        
+        form = budgetForm(request.POST,instance=budget)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Budget Updated!')
+            return redirect('budget')
+        messages.add_message(request, messages.ERROR, 'Error updating Budget!')
+    else:
+        form = budgetForm(instance=budget)
+    
+    return render(
+        request,
+        "new_budget.html",
+        {
+            "form": form,  # keep key consistent with your create view
+        },
+    )
+    
+def budget_delete(request, budget_id):
+    qs = Budget.objects.filter(owner=request.user)
+    budget = get_object_or_404(qs, id=budget_id)
+    if request.method == "POST":
+        budget.delete()
+        messages.add_message(request, messages.SUCCESS, 'Budget deleted!')
+        return redirect('budget')  
+    return redirect('budget')

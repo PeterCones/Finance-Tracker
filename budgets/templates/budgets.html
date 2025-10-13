@@ -15,28 +15,44 @@
 <div class="mt-0 glass budget container">
   {% for item in items_with_progress %}
   <div class="glass mb-2 p-2">
-      <div class="flex justify-between flex-row items-center">
-        <div>
-          <h2 class="budget_heading">{{ item.budget.category }}</h2>
-          <p class=" budget_heading">
-            {{ item.budget.month_label }}
-          </p>
-          <p class=" budget_heading">
-            Progress:£{{ item.progress.spent|floatformat:2 }} of £{{ item.progress.limit|floatformat:2 }}
-          </p>
-        </div>
-      </div>
-      <div class="">
-        <div
-          class="progress-bar-container w-100 h-100"
-          id="progress-bar-{{ item.budget.id }}"
-          data-progress="{{ item.progress.pct }}"
-        ></div>
+    <div class="flex justify-between flex-row items-center">
+      <div>
+        <h2 class="budget_heading">{{ item.budget.category }}</h2>
+        <p class="budget_heading">{{ item.budget.month_label }}</p>
+        <p class="budget_heading">
+          Progress:£{{ item.progress.spent|floatformat:2 }} of £{{item.progress.limit|floatformat:2 }}
+        </p>
+        <a
+          href="{% url 'edit_budget' item.budget.id %}"
+          class="action-btn"
+          title="Edit"
+        >
+          <img src="{% static 'images/edit.png' %}" alt="Edit" />
+        </a>
+        <a
+          href="#"
+          class="action-btn"
+          data-bs-toggle="modal"
+          data-bs-target="#budget_delete{{ item.budget.id }}"
+          title="Delete"
+        >
+          <img src="{% static 'images/delete.png' %}" alt="Delete" />
+        </a>
       </div>
     </div>
-    {% empty %}
-    <h2 class="text-center budget_heading te">You haven’t added any budgets yet.</h2>
-    {% endfor %}
+    <div class="">
+      <div
+        class="progress-bar-container w-100 h-100"
+        id="progress-bar-{{ item.budget.id }}"
+        data-progress="{{ item.progress.pct }}"
+      ></div>
+    </div>
+  </div>
+  {% empty %}
+  <h2 class="text-center budget_heading te">
+    You haven’t added any budgets yet.
+  </h2>
+  {% endfor %}
 
   <!-- Pagination controls -->
 </div>
@@ -63,6 +79,28 @@
     </ul>
   </nav>
 </div>
+{% for item in page_obj %}
+<div class="modal fade" id="budget_delete{{ item.id }}" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="POST" action="{% url 'delete_budget' item.id %}">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title">Confirm Execution</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          Are you absolutely sure you want to delete budget <strong>#{{ item.id }}</strong>?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn " data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn ">Yes, Delete It</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endfor %}
 <script src="{% static 'js/progress.js' %}" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
 
