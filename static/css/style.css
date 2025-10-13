@@ -525,11 +525,28 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
 }
 
 .action-btn img {
+  width: 120px;
+  height: 50px;
+  display: block;
+}
+
+
+.action-btn-goals {
+  display: inline-block;
+  margin: 0 4px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.action-btn-goals:hover {
+  transform: translateY(-1px);
+}
+
+.action-btn-goals img {
   width: 53px;
   height: 32px;
   display: block;
 }
-
 
 
 /* filters */
