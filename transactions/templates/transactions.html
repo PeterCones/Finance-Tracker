@@ -1,4 +1,6 @@
-{% extends "base.html" %} {% load static %} {% load crispy_forms_tags %} 
+{% extends "base.html" %} 
+{% load static %} 
+{% load crispy_forms_tags %} 
 {% url 'new_transaction' as new_transaction_url %}
 
 {% block content %}
@@ -16,7 +18,7 @@
   <!-- Make row positioned so popovers can be absolutely placed under buttons -->
   <div class="row m-1 gap-3 filters-row" id="filters-row">
     <!-- Date -->
-    <button type="button" class="col-8 glass w-auto filter-toggle" id="date" data-filter="date_filter">Date ▾</button>
+    <button type="button" class="col-8 glass w-auto filter-toggle monthly" id="date" data-filter="date_filter">Date ▾</button>
     <div id="date_filter" class="filter-popover" role="dialog" hidden>
       <form class="filterForm" method="get">
         <fieldset>
@@ -43,7 +45,7 @@
     </div>
 
     <!-- Account -->
-    <button type="button" class="col-8 glass w-auto filter-toggle" id="account" data-filter="account_filter">Account ▾</button>
+    <button type="button" class="col-8 glass w-auto filter-toggle monthly" id="account" data-filter="account_filter">Account ▾</button>
     <div id="account_filter" class="filter-popover" role="dialog" hidden>
       <form class="filterForm" method="get">
         <fieldset>
@@ -67,7 +69,7 @@
     </div>
 
     <!-- Category -->
-    <button type="button" class="col-8 glass w-auto filter-toggle" id="category" data-filter="category_filter">Category ▾</button>
+    <button type="button" class="col-8 glass w-auto filter-toggle monthly" id="category" data-filter="category_filter">Category ▾</button>
     <div id="category_filter" class="filter-popover" role="dialog" hidden>
       <form id="filterForm" method="get">
         <fieldset>
@@ -93,17 +95,17 @@
 
   <div class="row">
     <div class="col-8 glass">
-      <div class="container transaction_wrapper text-center">
+      <div class="text-center glass-table-container">
         <table class="glass-table">
           <thead>
             <tr>
-              <th>Date</th>
-              <th>Account</th>
-              <th>Type</th>
-              <th>Category</th>
-              <th>Description</th>
-              <th>Amount</th>
-              <th>Actions</th>
+              <th class="monthly">Date</th>
+              <th class="monthly">Account</th>
+              <th class="monthly">Type</th>
+              <th class="monthly">Category</th>
+              <th class="monthly">Description</th>
+              <th class="monthly">Amount</th>
+              <th class="monthly">Actions</th>
             </tr>
           </thead>
           {% if user.is_authenticated %}
@@ -141,30 +143,34 @@
     </div>
     <div class="col-4">
       <div class="container glass transaction_wrapper">
-        <h3>This Month</h3>
+        <h3 class="monthly">This Month</h3>
         <div>
           <canvas id="moneyPie" data-labels='{{ pie_labels_json|safe }}' data-values='{{ pie_values_json|safe }}' style="width:100%;height:420px"></canvas>
         </div>
-        <p class="mt-1">Income: {{income}} Expenses: {{expense}}</p>
+        <div class="text-center budget_heading">
+        <p class="mt-1 monthly">Income:</p>
+        <p class="mt-1 monthly">{{income}}</p>
+        <p class="mt-1 monthly">Expenses:</p>
+        <p class="mt-1 monthly">{{expense}}</p>
+      </div>
       </div>
     </div>
   </div>
   <div class="row trans_nav">
     <div class="col p-0 pe-2">
       <div class="container mt-auto glass p-1 text-center">
-        <h4>Balance:</h4>
-          <p class="m-0">{{ balance }}</p>
+        <h4 class=" monthly pt-1">Balance: £{{ balance }}</h4>
       </div>
     </div>
   </div>
 
   
-  <div class="audio-bar invisible">
+  <!-- <div class="audio-bar invisible">
     <audio autoplay preload="metadata" class="glass">
       <source src="{% static 'music/transactions.mp3' %}" type="audio/mp3" />
       Your browser does not support the audio element.
     </audio>
-  </div>
+  </div> -->
 </div>
 <div class="text-center p-3 glass container mt-3">
   <nav aria-label="transactions navigation">

@@ -97,7 +97,7 @@
       -webkit-backdrop-filter: blur(14px);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
-      z-index: 999;
+      z-index: 100;
     }
 
 
@@ -353,7 +353,7 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
     0px 4px 8px rgba(0, 0, 0, 0.10);   /* Extra depth */
   letter-spacing: 0.5px;    /* A little breathing room */
   font-family: 'Nunito', 'Segoe UI', sans-serif; /* Rounded, modern */
-  z-index: 1;
+  z-index: 100;
 }
 
 /* add transaction button */
@@ -397,7 +397,11 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
 
 
 .trans_nav{
-  margin-top: 1rem;
+  margin-top: 3rem;
+}
+
+.trans_nav div{
+  height: 4rem;
 }
 
 /* Table container with glass effect */
@@ -412,18 +416,57 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   height: 30vh;
+  border-radius: var(--radius);
+  overflow: hidden;            /* clip inner table to the rounded container */
 }
 
+.glass-table-container{
+  height: 100%;
+}
 
 /* The table itself */
 .glass-table {
   width: 100%;
+  height:30rem;
   border-collapse: collapse;
   color: var(--text);
   font-family: "Nunito", sans-serif;
   font-size: 14px;
   background: transparent;
+  margin-top:1rem;
+  margin-bottom:1rem;
+  border:1px solid var(--glass-stroke);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  z-index: 100;
+  border-collapse: separate;   /* allow border-radius to render */
+  border-spacing: 0;           /* keep cells tight */
+  border-radius: var(--radius);
+  overflow: hidden;            /* helps in some browsers */
 }
+
+/* Round the transactions table corners */
+.table-container {
+  border-radius: var(--radius);
+  overflow: hidden;            /* clip inner table to the rounded container */
+}
+
+.glass-table {
+  border-collapse: separate;   /* allow border-radius to render */
+  border-spacing: 0;           /* keep cells tight */
+  border-radius: var(--radius);
+  overflow: hidden;            /* helps in some browsers */
+}
+
+/* Round header top corners */
+.glass-table thead th:first-child { border-top-left-radius: var(--radius); }
+.glass-table thead th:last-child  { border-top-right-radius: var(--radius); }
+
+/* Round bottom corners on the last row */
+.glass-table tbody tr:last-child td:first-child { border-bottom-left-radius: var(--radius); }
+.glass-table tbody tr:last-child td:last-child  { border-bottom-right-radius: var(--radius); }
 
 /* Table header */
 .glass-table thead th {
@@ -431,20 +474,50 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
   padding: 16px 12px;
   font-weight: 600;
   font-family: "Nunito", sans-serif;
-  color: var(--text);
   background: rgba(255, 255, 255, 0.3);
   font-size: 13px;
   letter-spacing: 0.5px;
   text-transform: uppercase;
   border: none;
   border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+    text-shadow: 
+    0px 2px 4px rgba(0, 0, 0, 0.452),   /* Soft dark glow */
+    0px 4px 8px rgba(0, 0, 0, 0.479);
+  color: #ffffff;           /* White base */
+  letter-spacing: 0.5px;    /* A little breathing room */
+  z-index: 1;
+  margin: 5px;
+  
 }
+
+
+
+
+
+
+
 
 /* Table rows */
 .glass-table tbody tr {
   background: transparent;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   transition: background-color 0.2s ease;
+  text-align: center;
+  padding: 16px 12px;
+  font-weight: 600;
+  font-family: "Nunito", sans-serif;
+  background: rgba(255, 255, 255, 0.3);
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border: none;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+  text-shadow: 
+    0px 2px 4px rgba(0, 0, 0, 0.247),   /* Soft dark glow */
+    0px 4px 8px rgba(0, 0, 0, 0.479);
+  color: #ffffff;           /* White base */
+  z-index: 1;
+  margin: 5px;
 }
 
 .glass-table tbody tr:hover {
@@ -455,28 +528,22 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
   padding: 16px 12px;
   text-align: center;
   font-family: "Nunito", sans-serif;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 14px;
   vertical-align: middle;
   border: none;
 }
 
 /* Specific styling for different columns */
-.glass-table .date-col {
-  font-weight: 600;
-  color: #2c3e50;
-}
-
-.glass-table .account-col {
-  font-weight: 600;
-  color: #34495e;
-}
 
 .glass-table .type-col {
   font-weight: 700;
   text-transform: uppercase;
   font-size: 12px;
   letter-spacing: 0.5px;
+    text-shadow: 
+    0px 2px 4px rgba(0, 0, 0, 0.089),   /* Soft dark glow */
+    0px 4px 8px rgba(0, 0, 0, 0.185);
 }
 
 /* Color coding for transaction types */
@@ -494,6 +561,9 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
   font-style: italic;
   font-weight: 700;
   color: #5d6d7e;
+    text-shadow: 
+    0px 2px 4px rgba(0, 0, 0, 0.089),   /* Soft dark glow */
+    0px 4px 8px rgba(0, 0, 0, 0.185);
 }
 
 .glass-table .description-col {
@@ -506,6 +576,9 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
   font-weight: 700;
   font-size: 15px;
   font-family: 'Nunito', sans-serif;
+  text-shadow: 
+    0px 2px 4px rgba(0, 0, 0, 0.089),   /* Soft dark glow */
+    0px 4px 8px rgba(0, 0, 0, 0.185);
 }
 
 .modal-backdrop { z-index: 19990 !important; }
@@ -520,6 +593,17 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
 .glass-table .amount-expense {
   color: #FF3547 !important; /* Vibrant red for OUT transactions */
   font-weight: 800;
+}
+
+.monthly{
+  text-shadow: 
+    0px 2px 4px rgba(0, 0, 0, 0.452),   /* Soft dark glow */
+    0px 4px 8px rgba(0, 0, 0, 0.479);
+  font-weight: 500;         /* Bold and chunky */
+  color: #ffffff;           /* White base */
+  letter-spacing: 0.5px;    /* A little breathing room */
+  font-family: 'Nunito', 'Segoe UI', sans-serif; /* Rounded, modern */
+  margin: 5px;
 }
 
 /* Action buttons - simple and clean */
@@ -576,7 +660,7 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
 
 
 /* filters */
-.filter-popover { position:absolute; z-index:10; margin-top:.5rem; padding:1rem; width:280px; border:1px solid #ddd; border-radius:.75rem; background:#fff; box-shadow:0 10px 25px rgba(0,0,0,.08); }
+.filter-popover { position:absolute; z-index:1000; margin-top:2.8rem; padding:1rem; width:280px; border:1px solid #ddd; border-radius:.75rem; background:#fff; box-shadow:0 10px 25px rgba(0,0,0,.08); }
 .chk input { margin-right:.5rem; }
 .actions { margin-top:.75rem; display:flex; gap:.5rem; }
 .reset { text-decoration:none; padding:.5rem .75rem; border:1px solid #eee; border-radius:.5rem; }
