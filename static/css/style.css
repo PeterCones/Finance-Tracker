@@ -571,3 +571,27 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
   box-shadow: inset 2px 2px 4px rgba(255,255,255,0.6),
               inset -2px -2px 4px rgba(0,0,0,0.15);
 }
+
+/* Budgets */
+
+.budget {
+  margin-top: 5vh;
+  min-height: 45vh;
+}
+
+.budget_heading {      /* Big, friendly text */
+  font-weight: 500;         /* Bold and chunky */
+  color: #ffffff;           /* White base */
+  text-shadow: 
+    0px 2px 4px rgba(0, 0, 0, 0.15),   /* Soft dark glow */
+    0px 4px 8px rgba(0, 0, 0, 0.10);   /* Extra depth */
+  letter-spacing: 0.5px;    /* A little breathing room */
+  font-family: 'Nunito', 'Segoe UI', sans-serif; /* Rounded, modern */
+  z-index: 1;
+}
+
+#progressBarContainer {
+    width: 80%;
+    margin: 20px auto; /* Center the bar */
+    height: 30px;
+}

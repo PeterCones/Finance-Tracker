@@ -8,7 +8,15 @@ from django.utils import timezone
 # Create your models here.
 
 class Budget(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='budgets')
-    period_start = models.DateField()
-    limit_amount = models.DecimalField(decimal_places=2, max_digits=100)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category,
+                                 on_delete=models.CASCADE)
+    period_start = models.DateField(help_text="First day of the month")
+    limit_amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        unique_together = ("owner", "category", "period_start")
+
+    @property
+    def month_label(self):
+        return self.period_start.strftime("%B %Y")

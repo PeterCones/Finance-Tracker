@@ -10,7 +10,7 @@ class TransactionForm(forms.ModelForm):
         min_value=0,
         decimal_places=2,
         widget=forms.NumberInput(attrs={
-            "placeholder": "0.00",
+            "placeholder": "£0.00",
             "step": "0.01",
         })
     )

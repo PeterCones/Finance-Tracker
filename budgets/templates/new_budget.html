@@ -7,7 +7,7 @@
 <div class="transaction container glass mt-0">
   <div class="row">
     <form method="post">
-      {{ budgetForm | crispy }} {% csrf_token %}
+      {{ form | crispy }} {% csrf_token %}
       <button type="submit">Submit</button>
     </form>
   </div>

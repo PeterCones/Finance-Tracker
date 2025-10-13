@@ -1,8 +1,5 @@
-{% extends "base.html" %}
-{% load static %}
-{% load crispy_forms_tags %}
-{% block content %}
-{% url 'new_budget' as new_budget_url %}
+{% extends "base.html" %} {% load static %} {% load crispy_forms_tags %} 
+{% block content %} {% url 'new_budget' as new_budget_url %}
 <div class="container row p-0 mt-0">
   <div class="col d-flex justify-content-between px-0">
     <h3 class="transactions-title">Monthly Budgets</h3>
@@ -15,5 +12,58 @@
     >
   </div>
 </div>
+<div class="mt-0 glass budget container">
+  {% for item in items_with_progress %}
+  <div class="glass mb-2 p-2">
+      <div class="flex justify-between flex-row items-center">
+        <div>
+          <h2 class="budget_heading">{{ item.budget.category }}</h2>
+          <p class=" budget_heading">
+            {{ item.budget.month_label }}
+          </p>
+          <p class=" budget_heading">
+            Progress:£{{ item.progress.spent|floatformat:2 }} of £{{ item.progress.limit|floatformat:2 }}
+          </p>
+        </div>
+      </div>
+      <div class="">
+        <div
+          class="progress-bar-container w-100 h-100"
+          id="progress-bar-{{ item.budget.id }}"
+          data-progress="{{ item.progress.pct }}"
+        ></div>
+      </div>
+    </div>
+    {% empty %}
+    <h2 class="text-center budget_heading te">You haven’t added any budgets yet.</h2>
+    {% endfor %}
+
+  <!-- Pagination controls -->
+</div>
+<div class="text-center p-3 glass container mt-3">
+  <nav aria-label="transactions navigation">
+    <ul class="pagination mb-0">
+      <li class="{% if not page_obj.has_previous %}disabled{% endif %}">
+        <a
+          class="pagination-btn"
+          href="{% if page_obj.has_previous %}?{{ preserved_qs }}&page={{ page_obj.previous_page_number }}{% else %}#{% endif %}"
+          >&lsaquo;</a
+        >
+      </li>
+      <li>
+        <p class="pagination-number mb-0">{{ page_obj.number }}</p>
+      </li>
+      <li class="{% if not page_obj.has_next %}disabled{% endif %}">
+        <a
+          class="pagination-btn"
+          href="{% if page_obj.has_next %}?{{ preserved_qs }}&page={{ page_obj.next_page_number }}{% else %}#{% endif %}"
+          >&rsaquo;</a
+        >
+      </li>
+    </ul>
+  </nav>
+</div>
+<script src="{% static 'js/progress.js' %}" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
 
 {% endblock content %}
