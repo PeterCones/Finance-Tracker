@@ -2,10 +2,10 @@
 {% block content %} 
 {% url 'new_goal' as new_goal_url %}
 <div class="container row p-0 mt-0">
-  <div class="col d-flex justify-content-between px-0">
+  <div class="col-12 col-lg-6 d-flex justify-content-between px-0">
     <h3 class="transactions-title">Goals</h3>
   </div>
-  <div class="col d-flex justify-content-center px-0">
+  <div class="col-12 col-lg-6 d-flex justify-content-center px-0 mt-2 mt-lg-0">
     <a
       class="transaction-button ms-auto my-auto text-center"
       href="{{ new_goal_url }}"
@@ -110,17 +110,17 @@
 
 <!-- Pagination -->
 <div class="text-center p-1 glass container mt-3">
-  <nav aria-label="transactions navigation" class="row">
+  <nav aria-label="goals navigation" class="row">
 
     <!-- Page count -->
-     <div class="col-4 pagination-text-wrapper">
+     <div class="col-12 col-md-6 col-lg-4 pagination-text-wrapper text-center">
      <ul class="list-unstyled mb-0">
       <li>
         <span class="monthly pagination-text">{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
       </li>
       </ul>
       </div>
-    <div class="col-4">
+    <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
     <ul class="pagination mb-0">
       <li class="{% if not page_obj.has_previous %}disabled{% endif %}">
         <a

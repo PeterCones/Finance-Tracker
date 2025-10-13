@@ -9,8 +9,8 @@ from django.core.paginator import Paginator
 
 from .filters import TransactionFilter
 
-from .models import Transaction, Category
-from .forms import TransactionForm
+from .models import Transaction, Category, Account
+from .forms import TransactionForm, AccountForm
 
 import json
 
@@ -88,10 +88,8 @@ def transaction(request):
             
             
 def newTransaction(request):
-    # return render(request, 'new_transaction.html')
-
-    if request.method =='POST':
-        transaction_form = TransactionForm(data=request.POST)
+    if request.method =='POST' and request.POST.get('form_type') == 'transaction':
+        transaction_form = TransactionForm(data=request.POST, user=request.user)
         if transaction_form.is_valid():
             transaction = transaction_form.save(commit=False)
             transaction.owner = request.user
@@ -101,14 +99,17 @@ def newTransaction(request):
                 'Your transaction has been sucessfully added'
             )
             return redirect("transaction")
-
-            
     
+    # Default context
+    transaction_form = TransactionForm(user=request.user)
+    account_form = AccountForm()
+
     return render(
         request,
         "new_transaction.html",
         {
-         "TransactionForm": TransactionForm,
+         "TransactionForm": transaction_form,
+         "AccountForm": account_form,
          },
     )
     
@@ -119,23 +120,38 @@ def transaction_edit(request, transaction_id):
     qs = Transaction.objects.filter(owner=request.user)
     transaction = get_object_or_404(qs, id=transaction_id)
 
-    if request.method == 'POST':        
-        form = TransactionForm(request.POST,instance=transaction)
+    if request.method == 'POST':
+        form = TransactionForm(request.POST, instance=transaction, user=request.user)
         if form.is_valid():
             form.save()
             messages.add_message(request, messages.SUCCESS, 'Transaction Updated!')
             return redirect('transaction')
         messages.add_message(request, messages.ERROR, 'Error updating Transaction!')
     else:
-        form = TransactionForm(instance=transaction)
+        form = TransactionForm(instance=transaction, user=request.user)
     
     return render(
         request,
         "new_transaction.html",
         {
             "TransactionForm": form,  # keep key consistent with your create view
+            "AccountForm": AccountForm(),
         },
     )
+
+
+@login_required
+def account_create(request):
+    if request.method == 'POST':
+        form = AccountForm(request.POST)
+        if form.is_valid():
+            acc = form.save(commit=False)
+            acc.owner = request.user
+            acc.save()
+            messages.add_message(request, messages.SUCCESS, 'Account added!')
+        else:
+            messages.add_message(request, messages.ERROR, 'Error adding account.')
+    return redirect('new_transaction')
 
 @login_required    
 def transaction_delete(request, transaction_id):

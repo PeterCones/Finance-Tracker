@@ -82,6 +82,45 @@
   transform: translateY(-2px) scale(1.02);
 }
 
+/* Collapsed navbar (md and below): glassy panel + centered links */
+@media (max-width: 991.98px) {
+  .navbar .container { align-items: stretch; }
+  .navbar-toggler { 
+    border-radius: 999px; 
+    border: 1px solid var(--glass-stroke); 
+    background: var(--glass-bg); 
+    padding: 6px 10px; 
+    box-shadow: var(--shadow);
+  }
+  .navbar-toggler:focus { outline: none; box-shadow: 0 0 0 2px rgba(38,178,163,.6); }
+  .navbar-light .navbar-toggler-icon { 
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(255,255,255,0.92)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+  .navbar-collapse.show,
+  .navbar-collapse.collapsing {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-stroke);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: .5rem;
+    margin-top: .5rem;
+  }
+  .navbar-nav { width: 100%; gap: .5rem; align-items: stretch; }
+  .navbar-nav .nav-item { width: 100%; }
+  .navbar-nav .nav-link { 
+    display: block; 
+    width: 100%; 
+    text-align: center; 
+    padding: 10px 14px; 
+    border: 1px solid var(--glass-stroke);
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+}
+
     /* Decorative droplets (subtle) */
     .droplets:before, .droplets:after {
       content:""; position:fixed; inset:0; pointer-events:none; 
@@ -757,6 +796,30 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
   margin-right: 8rem;
 }
 
+/* Better disabled state */
+.pagination li.disabled > .pagination-btn {
+  opacity: .4;
+  pointer-events: none;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Paginator: md and below */
+@media (max-width: 991.98px) {
+  .pagination { gap: 10px; }
+  .pagination-btn { font-size: 1.6rem; }
+  .pagination-number { width: 28px; height: 28px; font-size: 13px; }
+  .pagination-text, .pagination-text-dash { font-size: 1rem; margin-right: 0; }
+}
+
+/* Paginator: xs screens */
+@media (max-width: 576px) {
+  .pagination { gap: 8px; }
+  .pagination-btn { font-size: 1.4rem; }
+  .pagination-number { width: 24px; height: 24px; font-size: 12px; }
+  .pagination-text, .pagination-text-dash { font-size: .95rem; }
+}
+
 /* Budgets */
 
 .budget {
@@ -814,12 +877,28 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
   height: 33rem;
 }
 
+/* Forms: ensure readable dark text inside glass cards */
+.glass form .budget_heading,
+.glass form .form-label,
+.glass form label { color: #000 !important; text-shadow: none !important; }
+.glass form .form-control,
+.glass form .signin-input { color: #000; }
+.glass form ::placeholder { color: #5d6d7e; opacity: 1; }
+.glass form .form-text { color: #000; }
+
+/* Modal forms: ensure labels and inputs are readable (dark) */
+.modal .budget_heading,
+.modal .form-label,
+.modal label { color: #000 !important; text-shadow: none !important; }
+.modal .form-control { color: #000; }
+.modal ::placeholder { color: #5d6d7e; opacity: 1; }
+
 /* Transaction filters */
 .filters-row { position: relative; z-index: 4000; }  /* above glass table (z:999) */
 .filter-popover {
   position: absolute;
   z-index: 5000;            /* ensure visible over .glass */
-  margin-top: 2rem;
+  margin-top: 4rem;
   padding: 1rem;
   width: 280px;
   background:white;
@@ -919,21 +998,24 @@ audio {
   display: none !important;
 }
 
-/* Compact transactions table: remove forced height, tighten spacing, shrink action buttons */
+/* Compact transactions table (only on md and below) */
+@media (max-width: 991.98px) {
+  /* 1) Let the table size to its content (optional scroll cap) */
+  .table-container { height: auto; max-height: 60vh; overflow-y:auto }
+  .glass-table { height: auto; }
 
-/* 1) Let the table size to its content (optional scroll cap) */
-.table-container { height: auto; max-height: 60vh; overflow-y:scroll }
-.glass-table { height: auto; }
+  /* 2) Tighten row and cell spacing */
+  .glass-table tbody tr { padding: 0 !important; }
+  .glass-table tbody td { padding: 6px 8px !important; line-height: 1.1; }
 
-/* 2) Tighten row and cell spacing */
-.glass-table tbody tr { padding: 0 !important; }
-.glass-table tbody td { padding: 6px 8px !important; line-height: 1.1; }
+  /* 3) Keep the date on one line (prevents tall date cells) */
+  .glass-table tbody td:first-child { white-space: nowrap; }
 
-/* 3) Keep the date on one line (prevents tall date cells) */
-.glass-table tbody td:first-child { white-space: nowrap; }
+  /* 4) Make action buttons smaller inside the table so they don’t dictate row height */
+  .glass-table td:last-child img { height: 28px !important; }
+}
 
-/* 4) Make action buttons smaller inside the table so they don’t dictate row height */
-.glass-table td:last-child img { height: 28px !important; }
+
 
 /* Floating player (no wrapper) */
 #site-audio {
@@ -952,9 +1034,52 @@ audio {
   -webkit-backdrop-filter: blur(10px);
   -webkit-appearance: none;
   appearance: none;
+  color-scheme: light;
+  accent-color: var(--brand);
 }
 /* Optional: hide the old wrapper if still present somewhere */
 .audio-bar { display: none !important; }
+
+/* Make the floating player a bit prettier */
+#site-audio:hover { box-shadow: 0 10px 24px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.55); }
+#site-audio:focus { outline: none; box-shadow: 0 0 0 2px rgba(38,178,163,.6), 0 10px 24px rgba(0,0,0,.18); }
+
+/* WebKit/Chromium control theming for floating player */
+#site-audio::-webkit-media-controls-enclosure {
+  border-radius: var(--radius);
+  background: var(--glass-bg);
+  border: 1px solid transparent; /* keep radius crisp */
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.5);
+}
+#site-audio::-webkit-media-controls-panel {
+  border-radius: var(--radius);
+  background:
+    radial-gradient(120% 120% at 30% 20%, #ffffff33 0 25%, transparent 45%),
+    linear-gradient(145deg, rgba(38,178,163,.55), rgba(101,210,110,.55));
+}
+#site-audio::-webkit-media-controls-play-button,
+#site-audio::-webkit-media-controls-mute-button,
+#site-audio::-webkit-media-controls-seek-back-button,
+#site-audio::-webkit-media-controls-seek-forward-button {
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,.25));
+}
+#site-audio::-webkit-media-controls-current-time-display,
+#site-audio::-webkit-media-controls-time-remaining-display {
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,.35);
+  font-weight: 700;
+}
+#site-audio::-webkit-media-controls-timeline,
+#site-audio::-webkit-media-controls-volume-slider {
+  background: rgba(255,255,255,.25);
+  border-radius: 999px;
+}
+#site-audio::-webkit-media-controls-timeline:hover,
+#site-audio::-webkit-media-controls-volume-slider:hover {
+  background: rgba(255,255,255,.35);
+}
+#site-audio::-webkit-media-controls-download-button,
+#site-audio::-webkit-media-controls-fullscreen-button { display: none !important; }
 
 .glass-table-dash{
   height:25rem;
@@ -962,4 +1087,51 @@ audio {
 
 .progress-bar-container{
   height: 2rem;
+}
+
+/* Responsive adjustments for md screens and below (Bootstrap lg breakpoint) */
+@media (max-width: 991.98px) {
+  .dashboard { margin-inline: 1rem; height: auto; }
+  .dash-main-title { margin-left: 0; }
+  .glass-table-dash { height: auto; }
+  .table-container { height: auto; max-height: 60vh; overflow-y: auto; }
+  /* Transactions page: filters wrap and spacing */
+  .filters-row { gap: .5rem; }
+  .filter-toggle { width: auto; max-width: 100%; }
+
+  /* Transactions header: prevent overlap */
+  .transactions-title { font-size: 2.2rem; line-height: 1.1; margin-bottom: .25rem; }
+  .transaction-button { width: auto; height: auto; padding: .6rem 1rem; font-size: 1rem; }
+
+  /* Transactions table: compact spacing */
+  .glass-table thead th { font-size: 11px; padding: 6px 8px; }
+  .glass-table tbody td { font-size: 12px !important; padding: 6px 6px !important; }
+  /* Keep actions column tight */
+  .glass-table thead th:last-child,
+  .glass-table tbody td:last-child { white-space: nowrap; width: 1%; }
+  .glass-table td:last-child img { height: 22px !important; }
+  /* Allow description/category to wrap to avoid overflow */
+  .glass-table .description-col, .glass-table .category-col { max-width: 140px; white-space: normal; }
+
+  /* Budgets page: let container grow on small screens */
+  .budget { height: auto; margin-inline: 1rem; }
+  /* Budget action icons a touch smaller */
+  .glass .action-btn img { height: 32px; }
+
+  /* Goals page: scale chart/card spacing */
+  .goal-chart-wrap { height: 150px; }
+  .goal-line { height: 140px; }
+  .action-btn-goals img { height: 28px; }
+}
+
+/* Extra-tight layout for very small screens */
+@media (max-width: 576px) {
+  .transactions-title { font-size: 1.8rem; }
+  .transaction-button { padding: .5rem .9rem; font-size: .95rem; }
+  .glass-table thead th { font-size: 10px; padding: 5px 6px; }
+  .glass-table tbody td { font-size: 11px !important; padding: 5px 6px !important; }
+  .glass-table .description-col, .glass-table .category-col { max-width: 120px; }
+  .goal-chart-wrap { height: 130px; }
+  .goal-line { height: 120px; }
+  .action-btn-goals img { height: 26px; }
 }

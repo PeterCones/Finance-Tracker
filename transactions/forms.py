@@ -1,5 +1,5 @@
 from django import forms
-from .models import Transaction, Category
+from .models import Transaction, Category, Account
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, Submit, HTML
 from crispy_forms.bootstrap import FormActions
@@ -31,7 +31,12 @@ class TransactionForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop("user", None)
         super().__init__(*args, **kwargs)
+
+        # Limit account choices to current user's accounts if provided
+        if user is not None and "account" in self.fields:
+            self.fields["account"].queryset = Account.objects.filter(owner=user)
 
     # Styling
         for _, field in self.fields.items():
@@ -85,3 +90,20 @@ class CategoryForm(forms.ModelForm):
         widgets = {
             'category': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
+
+class AccountForm(forms.ModelForm):
+    class Meta:
+        model = Account
+        fields = ("name", "type",)
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "e.g., NatWest"}),
+            "type": forms.Select(attrs={"class": "form-control"}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Style labels similarly to other forms
+        for name, field in self.fields.items():
+            label = field.label or name.replace("_", " ").title()
+            field.label = mark_safe(f'<span class="budget_heading">{label}</span>')

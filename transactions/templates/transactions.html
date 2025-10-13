@@ -92,8 +92,8 @@
   </div>
 
   <div class="row">
-    <div class="col-8 glass">
-      <div class="text-center glass-table-container">
+    <div class="col-12 col-lg-8 glass">
+      <div class="text-center glass-table-container ">
         <table class="glass-table">
           <thead>
             <tr>
@@ -139,7 +139,7 @@
         </table>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-12 col-lg-4 mt-3 mt-lg-0">
       <div class="container glass transaction_wrapper py-2">
         <h3 class="text-center monthly">This Month</h3>
         <div>
@@ -174,14 +174,14 @@
   <nav aria-label="transactions navigation" class="row">
 
     <!-- Page count -->
-     <div class="col-4 pagination-text-wrapper">
+     <div class="col-12 col-md-6 col-lg-4 pagination-text-wrapper text-center">
      <ul class="list-unstyled mb-0">
       <li>
         <span class="monthly pagination-text">{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
       </li>
       </ul>
       </div>
-    <div class="col-4">
+    <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
     <ul class="pagination mb-0">
       <li class="{% if not page_obj.has_previous %}disabled{% endif %}">
         <a
