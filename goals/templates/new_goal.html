@@ -4,11 +4,11 @@
   <div class="col d-flex justify-content-between px-0">
     <h3 class="transactions-title">New Goal</h3>
   </div>
-<div class="transaction container glass mt-0">
+<div class="new_goal container glass mt-0">
   <div class="row">
     <form method="post">
       {{ form | crispy }} {% csrf_token %}
-      <button type="submit">Submit</button>
+      <button class="transaction-button w-100 h-auto" type="submit">Submit</button>
     </form>
   </div>
 </div>

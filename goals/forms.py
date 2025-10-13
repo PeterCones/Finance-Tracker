@@ -29,6 +29,12 @@ class GoalForm(forms.ModelForm):
                 "step": "0.01",
                 "min": "0",
             })
+        if "saved_amount" in self.fields:
+            self.fields["saved_amount"].widget.attrs.update({
+                "placeholder": "£0.00",
+                "step": "0.01",
+                "min": "0",
+            })
         if "target_date" in self.fields:
             self.fields["target_date"].widget.attrs.update({
                 "min": date.today().isoformat(),

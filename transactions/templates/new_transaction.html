@@ -8,7 +8,7 @@
   <div class="row">
     <form method="post">
       {{ TransactionForm | crispy }} {% csrf_token %}
-      <button type="submit">Submit</button>
+      <button class="transaction-button w-100 h-auto" type="submit">Submit</button>
     </form>
   </div>
 </div>

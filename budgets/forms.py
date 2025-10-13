@@ -6,6 +6,7 @@ from crispy_forms.bootstrap import FormActions
 from django.db.models import Q
 from datetime import date
 from transactions.models import Category  # add
+from django.utils.safestring import mark_safe
 
 class budgetForm(forms.ModelForm):
     limit_amount = forms.DecimalField(
@@ -57,10 +58,19 @@ class budgetForm(forms.ModelForm):
             existing = field.widget.attrs.get("class", "signin-input")
             field.widget.attrs["class"] = f"{existing} form-control".strip()
 
+        # Ensure all labels get the 'budget_heading' class
+        for name, field in self.fields.items():
+            label = field.label or name.replace("_", " ").title()
+            if field.required:
+                field.label = mark_safe(
+                    f'<span class="budget_heading">{label}<span class="asteriskField">*</span></span>'
+                )
+            else:
+                field.label = mark_safe(f'<span class="budget_heading">{label}</span>')
+
         self.helper = FormHelper()
         self.helper.form_method = "post"
         self.helper.form_tag = True
-        self.helper.label_class = "form-label"
         self.helper.form_class = "p-4 border rounded-3 bg-light"
         self.helper.layout = Layout(
             Row(

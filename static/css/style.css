@@ -276,6 +276,9 @@
   color: #023e8a;
 }
 
+/* Hide default crispy asterisk if adding your own in labels */
+label > .asteriskField { display: none; }
+
 
 
 
@@ -653,6 +656,23 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
   height: 100% !important;
 }
 
+/* new budget */
+
+.new_budget{
+  height:27rem;
+}
+
+.form-text{
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* new goal */
+.new_goal{
+  height: 25rem;
+}
+
+/* Transaction filters */
 .filters-row { position: relative; z-index: 4000; }  /* above glass table (z:999) */
 .filter-popover {
   position: absolute;
