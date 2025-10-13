@@ -30,7 +30,7 @@ class CustomLoginForm(_StyledFieldsMixin, LoginForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Allauth "login" can be username or email depending on settings
-        self._style_field("login", placeholder="Username or Email", autocomplete="username", autofocus=True)
+        self._style_field("login", placeholder="Username", autocomplete="username", autofocus=True)
         self._style_field("password", placeholder="Password", autocomplete="current-password")
 
 

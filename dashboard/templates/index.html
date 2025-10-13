@@ -1,15 +1,255 @@
-{% extends "base.html" %}
-{% load static %}
-{% block content %}
+{% extends "base.html" %} {% load static %} {% block content %}
 
-<div class="container row p-0 mt-0">
+<div class="dash-main-title row p-0 mt-0">
   <div class="col d-flex justify-content-between px-0">
     <h3 class="transactions-title">Dashboard</h3>
   </div>
 </div>
 
-<div class="glass dashboard mt-0">
-
+<div class="glass dashboard mt-0 p-3 row g-3">
+  <!-- Left: Recent Transactions -->
+  <div class="col-8">
+    <h3 class="text-center budget_heading">Recent Transactions</h3>
+    <div class="glass-table-container">
+      <table class="glass-table glass-table-dash mt-2">
+        <thead>
+          <tr>
+            <th class="monthly">Date</th>
+            <th class="monthly">Account</th>
+            <th class="monthly">Type</th>
+            <th class="monthly">Category</th>
+            <th class="monthly">Description</th>
+            <th class="monthly">Amount</th>
+          </tr>
+        </thead>
+        {% if user.is_authenticated %}
+        <tbody>
+          {% for transaction in tx_page %}
+          <tr>
+            <td class="date-col">{{ transaction.date|date:"M d" }}</td>
+            <td class="account-col">{{ transaction.account }}</td>
+            <td
+              class="type-col {% if transaction.type == 'In' %}type-income{% else %}type-expense{% endif %}"
+            >
+              {{ transaction.type }}
+            </td>
+            <td class="category-col">{{ transaction.category }}</td>
+            <td class="description-col">{{ transaction.description }}</td>
+            <td
+              class="amount-col {% if transaction.type == 'In' %}amount-income{% else %}amount-expense{% endif %}"
+            >
+              £{{ transaction.amount|floatformat:2 }}
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td
+              colspan="6"
+              class="text-center py-4"
+              style="font-size: 16px; color: #7f8c8d; font-style: italic"
+            >
+              No transactions found.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        {% endif %}
+      </table>
+      <!-- Transactions pagination -->
+<div class="text-center p-1 glass mt-0">
+  <nav aria-label="transactions navigation" class="row">
+    <div class="col-4 pagination-text-wrapper">
+      <ul class="list-unstyled mb-0">
+        <li>
+          <span class="monthly pagination-text-dash m-0"
+            >{{ tx_page.number }} of {{ tx_page.paginator.num_pages }}</span
+          >
+        </li>
+      </ul>
+    </div>
+    <div class="col-4">
+      <ul class="pagination mb-0">
+        <li class="{% if not tx_page.has_previous %}disabled{% endif %}">
+          <a
+            class="pagination-btn"
+            href="{% if tx_page.has_previous %}?{{ tx_qs }}&tx_page={{ tx_page.previous_page_number }}{% else %}#{% endif %}"
+            >&lsaquo;</a
+          >
+        </li>
+        <li><p class="pagination-number mb-0">{{ tx_page.number }}</p></li>
+        <li class="{% if not tx_page.has_next %}disabled{% endif %}">
+          <a
+            class="pagination-btn"
+            href="{% if tx_page.has_next %}?{{ tx_qs }}&tx_page={{ tx_page.next_page_number }}{% else %}#{% endif %}"
+            >&rsaquo;</a
+          >
+        </li>
+      </ul>
+    </div>
+  </nav>
 </div>
+    </div>
+  </div>
+  <!-- Goals -->
+  <div class="p-0 col-4 mt-3 p-1">
+    <h3 class="text-center budget_heading">Goals</h3>
+    <div class="row row-cols-1 g-2">
+      {% for g in goal_page %}
+      <div class="col mt-0">
+        <div class="glass glass-table-dash p-2 mt-2 mb-3">
+          <h5 class="mb-1 budget_heading">{{ g.name }}</h5>
+          <div class="text-muted mb-2 p-1">Target: £{{ g.target_amount|floatformat:2 }}</div>
+          <p class="mb-0 p-1">End Date: {{ g.target_date|date:"M d, Y" }}</p>
+          <div
+            class="progress-bar-container1 w-100"
+            id="goal-progress-{{ g.id }}"
+            data-created-at="{{ g.created_at|date:'Y-m-d' }}"
+            data-target-date="{{ g.target_date|date:'Y-m-d' }}"
+            data-target="{{ g.target_amount }}"
+            data-remaining="{{ g.actual_amount }}">
+          </div>
+          <div class="goal-chart-wrap mt-3">
+            <canvas
+              class="goal-line"
+              id="goal-line-{{ g.id }}"
+              data-start-date="{{ g.created_at|date:'Y-m-d' }}"
+              data-end-date="{{ g.target_date|date:'Y-m-d' }}"
+              data-start-remaining="{{ g.target_amount }}"
+              data-current-remaining="{{ g.actual_amount }}"
+            >
+            </canvas>
+          </div>
+          <p class="mb-0 p-1">
+            Amount Saved: £{{ g.saved_amount|floatformat:2 }}
+          </p>
+        </div>
+        
+      </div>
+      {% empty %}
+      <div class="col">
+        <p class="text-center text-muted mb-0">No goals found.</p>
+      </div>
+      {% endfor %}
+    </div>
+
+<div class="text-center p-1 glass mt-0">
+  <nav aria-label="transactions navigation" class="row">
+    <div class="col-4 pagination-text-wrapper">
+      <ul class="list-unstyled mb-0">
+        <li>
+          <span class="monthly pagination-text-dash m-0"
+            >{{ goal_page.number }} of {{ goal_page.paginator.num_pages }}</span
+          >
+        </li>
+      </ul>
+    </div>
+    <div class="col-4">
+      <ul class="pagination mb-0">
+        <li class="{% if not goal_page.has_previous %}disabled{% endif %}">
+          <a
+            class="pagination-btn"
+            href="{% if goal_page.has_previous %}?{{ goal_qs }}&goal_page={{ goal_page.previous_page_number }}{% else %}#{% endif %}"
+            >&lsaquo;</a
+          >
+        </li>
+        <li><p class="pagination-number mb-0">{{ goal_page.number }}</p></li>
+        <li class="{% if not goal_page.has_next %}disabled{% endif %}">
+          <a
+            class="pagination-btn"
+            href="{% if goal_page.has_next %}?{{ goal_qs }}&goal_page={{ goal_page.next_page_number }}{% else %}#{% endif %}"
+            >&rsaquo;</a
+          >
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+  </div>
+  <!-- Budgets -->
+  <div class="col-12 mt-3">
+    <h3 class="text-center monthly">Recent Budgets</h3>
+    <div class="row row-cols-1 g-2">
+      {% for item in budgets_with_progress %}
+      {% with b=item.budget p=item.progress %}
+      <div class="col">
+        <div class="glass p-2 h-100">
+          <h5 class="mb-1 monthly">{{ b.category }}</h5>
+          <div class="text-muted budget_heading p-1">Period start: {{ b.period_start|date:"M d, Y" }}</div>
+
+          <p class="budget_heading mb-1">
+            Progress: £{{ p.spent|floatformat:2 }} of £{{ p.limit|floatformat:2 }} ({{ p.pct }}%)
+          </p>
+          <p class="text-muted budget_heading mb-2">Remaining: £{{ p.remaining|floatformat:2 }}</p>
+
+          <div
+            class="progress-bar-container"
+            id="budget-progress-{{ b.id }}"
+            data-progress="{{ p.pct }}"
+          ></div>
+          
+        </div>
+        
+      </div>
+      {% endwith %}
+      {% empty %}
+      <div class="col">
+        <p class="text-center text-muted mb-0">No budgets found.</p>
+      </div>
+      {% endfor %}
+      <div class="text-center p-1 glass mt-3">
+  <nav aria-label="transactions navigation" class="row">
+    <div class="col-4 pagination-text-wrapper">
+      <ul class="list-unstyled mb-0">
+        <li>
+          <span class="monthly pagination-text-dash m-0"
+            >{{ bdg_page.number }} of {{ bdg_page.paginator.num_pages }}</span
+          >
+        </li>
+      </ul>
+    </div>
+    <div class="col-4">
+      <ul class="pagination mb-0">
+        <li class="{% if not bdg_page.has_previous %}disabled{% endif %}">
+          <a
+            class="pagination-btn"
+            href="{% if bdg_page.has_previous %}?{% if bdg_qs %}{{ bdg_qs }}&{% endif %}bdg_page={{ bdg_page.previous_page_number }}{% else %}#{% endif %}"
+            >&lsaquo;</a
+          >
+        </li>
+        <li><p class="pagination-number mb-0">{{ bdg_page.number }}</p></li>
+        <li class="{% if not bdg_page.has_next %}disabled{% endif %}">
+          <a
+            class="pagination-btn"
+            href="{% if bdg_page.has_next %}?{% if bdg_qs %}{{ bdg_qs }}&{% endif %}bdg_page={{ bdg_page.next_page_number }}{% else %}#{% endif %}"
+            >&rsaquo;</a
+          >
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+      
+    </div>
+    
+
+   
+
+
+<!-- libs for goals (charts and countdown) -->
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.umd.min.js"
+  defer
+></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3"
+  defer
+></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"
+  defer
+></script>
+<script src="{% static 'js/dash_countdown.js' %}" defer></script>
+<script src="{% static 'js/goal_progress.js' %}" defer></script>
+<script src="{% static 'js/budget_progress.js' %}" defer></script>
 
 {% endblock %}
