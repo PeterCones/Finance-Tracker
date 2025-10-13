@@ -8,106 +8,88 @@
     <h3 class="transactions-title">Transactions</h3>
   </div>
   <div class="col d-flex justify-content-center px-0">
-    <a
-      class="transaction-button ms-auto my-auto text-center"
-      href="{% url 'new_transaction' %}"
-      >+ Add Transaction</a
-    >
+    <a class="transaction-button ms-auto my-auto text-center" href="{% url 'new_transaction' %}">+ Add Transaction</a>
   </div>
 </div>
 
 <div class="transaction mt-0 container glass">
-  <div class="row m-1 gap-3">
-    <button class="col-8 glass w-auto" id="date">Date ▾</button>
-    <div id="date_filter"
-     class="filter-popover"
-     role="dialog"
-     aria-modal="false"
-     aria-labelledby="filterToggle"
-     hidden>
-  <form class="filterForm" method="get">
-    <fieldset>
-      <legend class="sr-only">Filter by date range</legend>
-      <div class="date-range">
-        <label for="{{ filter.form.date.0.id_for_label }}">From:</label>
-        {{ filter.form.date.0 }}
-      </div>
-      <div class="date-range">
-        <label for="{{ filter.form.date.1.id_for_label }}">To:</label>
-        {{ filter.form.date.1 }}
-      </div>
-    </fieldset>
-    {% for key, val in request.GET.items %}
-      {% if key != 'page' and key != 'date_min' and key != 'date_max' %}
-        <input type="hidden" name="{{ key }}" value="{{ val }}">
-      {% endif %}
-    {% endfor %}
-
-    <div class="actions">
-      <button type="submit">Apply</button>
-      <a class="reset" href="{% url 'transaction' %}">Reset</a>
+  <!-- Make row positioned so popovers can be absolutely placed under buttons -->
+  <div class="row m-1 gap-3 filters-row" id="filters-row">
+    <!-- Date -->
+    <button type="button" class="col-8 glass w-auto filter-toggle" id="date" data-filter="date_filter">Date ▾</button>
+    <div id="date_filter" class="filter-popover" role="dialog" hidden>
+      <form class="filterForm" method="get">
+        <fieldset>
+          <legend class="sr-only">Filter by date range</legend>
+          <div class="date-range">
+            <label for="{{ filter.form.date.0.id_for_label }}">From:</label>
+            {{ filter.form.date.0 }}
+          </div>
+          <div class="date-range">
+            <label for="{{ filter.form.date.1.id_for_label }}">To:</label>
+            {{ filter.form.date.1 }}
+          </div>
+        </fieldset>
+        {% for key, val in request.GET.items %}
+          {% if key != 'page' and key != 'date_min' and key != 'date_max' %}
+            <input type="hidden" name="{{ key }}" value="{{ val }}">
+          {% endif %}
+        {% endfor %}
+        <div class="actions">
+          <button type="submit">Apply</button>
+          <a class="reset" href="{% url 'transaction' %}">Reset</a>
+        </div>
+      </form>
     </div>
-  </form>
-</div>
-    <button class="col-8 glass w-auto" id="account">Account ▾</button>
-    <div id="account_filter"
-     class="filter-popover"
-     role="dialog"
-     aria-modal="false"
-     aria-labelledby="filterToggle"
-     hidden>
-  <form class="filterForm" method="get">
-    <fieldset>
-      <legend class="sr-only">Filter by account</legend>
-      {% for opt in filter.form.account %}
-        <label class="chk">
-          {{ opt.tag }} <span>{{ opt.choice_label }}</span>
-        </label><br>
-      {% endfor %}
-    </fieldset>
-    {% for key, val in request.GET.items %}
-      {% if key != 'page' and key != 'account' %}
-        <input type="hidden" name="{{ key }}" value="{{ val }}">
-      {% endif %}
-    {% endfor %}
 
-    <div class="actions">
-      <button type="submit">Apply</button>
-      <a class="reset" href="{% url 'transaction' %}">Reset</a>
+    <!-- Account -->
+    <button type="button" class="col-8 glass w-auto filter-toggle" id="account" data-filter="account_filter">Account ▾</button>
+    <div id="account_filter" class="filter-popover" role="dialog" hidden>
+      <form class="filterForm" method="get">
+        <fieldset>
+          <legend class="sr-only">Filter by account</legend>
+          {% for opt in filter.form.account %}
+            <label class="chk">
+              {{ opt.tag }} <span>{{ opt.choice_label }}</span>
+            </label><br>
+          {% endfor %}
+        </fieldset>
+        {% for key, val in request.GET.items %}
+          {% if key != 'page' and key != 'account' %}
+            <input type="hidden" name="{{ key }}" value="{{ val }}">
+          {% endif %}
+        {% endfor %}
+        <div class="actions">
+          <button type="submit">Apply</button>
+          <a class="reset" href="{% url 'transaction' %}">Reset</a>
+        </div>
+      </form>
     </div>
-  </form>
-</div>
-    <button class="col-8 glass w-auto" id="category">Category ▾</button>
+
+    <!-- Category -->
+    <button type="button" class="col-8 glass w-auto filter-toggle" id="category" data-filter="category_filter">Category ▾</button>
+    <div id="category_filter" class="filter-popover" role="dialog" hidden>
+      <form id="filterForm" method="get">
+        <fieldset>
+          <legend class="sr-only">Filter by category</legend>
+          {% for opt in filter.form.categories %}
+            <label class="chk">
+              {{ opt.tag }} <span>{{ opt.choice_label }}</span>
+            </label><br>
+          {% endfor %}
+        </fieldset>
+        {% for key, val in request.GET.items %}
+          {% if key != 'page' and key != 'categories' %}
+            <input type="hidden" name="{{ key }}" value="{{ val }}">
+          {% endif %}
+        {% endfor %}
+        <div class="actions">
+          <button type="submit">Apply</button>
+          <a class="reset" href="{% url 'transaction' %}">Reset</a>
+        </div>
+      </form>
+    </div>
   </div>
-  <div id="category_filter"
-     class="filter-popover"
-     role="dialog"
-     aria-modal="false"
-     aria-labelledby="filterToggle"
-     hidden>
-  <form id="filterForm" method="get">
-    <fieldset>
-      <legend class="sr-only">Filter by category</legend>
-      {% for opt in filter.form.categories %}
-        <label class="chk">
-          {{ opt.tag }} <span>{{ opt.choice_label }}</span>
-        </label><br>
-      {% endfor %}
-    </fieldset>
-
-    {# Preserve other query params except page & categories (since we're sending them via the checkboxes) #}
-    {% for key, val in request.GET.items %}
-      {% if key != 'page' and key != 'categories' %}
-        <input type="hidden" name="{{ key }}" value="{{ val }}">
-      {% endif %}
-    {% endfor %}
-
-    <div class="actions">
-      <button type="submit">Apply</button>
-      <a class="reset" href="{% url 'transaction' %}">Reset</a>
-    </div>
-  </form>
-</div>
 
   <div class="row">
     <div class="col-8 glass">
@@ -119,6 +101,7 @@
               <th>Account</th>
               <th>Type</th>
               <th>Category</th>
+              <th>Description</th>
               <th>Amount</th>
               <th>Actions</th>
             </tr>
@@ -131,6 +114,7 @@
               <td class="account-col">{{ transaction.account }}</td>
               <td class="type-col {% if transaction.type == 'In' %}type-income{% else %}type-expense{% endif %}">{{ transaction.type }}</td>
               <td class="category-col">{{ transaction.category }}</td>
+              <td class="description-col">{{transaction.description}}</td>
               <td class="amount-col {% if transaction.type == 'In' %}amount-income{% else %}amount-expense{% endif %}">
                 £{{ transaction.amount|floatformat:2 }}
               </td>
@@ -159,12 +143,7 @@
       <div class="container glass transaction_wrapper">
         <h3>This Month</h3>
         <div>
-          <canvas 
-            id="moneyPie"
-            data-labels='{{ pie_labels_json|safe }}'
-            data-values='{{ pie_values_json|safe }}'
-            style="width:100%;height:420px">
-          </canvas>
+          <canvas id="moneyPie" data-labels='{{ pie_labels_json|safe }}' data-values='{{ pie_values_json|safe }}' style="width:100%;height:420px"></canvas>
         </div>
         <p class="mt-1">Income: {{income}} Expenses: {{expense}}</p>
       </div>
@@ -210,6 +189,12 @@
     </ul>
   </nav>
 </div>
+{% endblock content %}
+
+{% block extra_modals %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4" defer></script>
+<script src="{% static 'js/transaction_charts.js' %}" defer></script>
+<script src="{% static 'js/transaction_filters.js' %}" defer></script>
 {% for transaction in page_obj %}
 <div class="modal fade" id="transaction_delete{{ transaction.id }}" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
@@ -221,18 +206,15 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          Are you absolutely sure you want to delete transaction <strong>#{{ transaction.id }}</strong>?
+          Are you absolutely sure you want to delete transaction <strong>#{{ transaction.description }}</strong>?
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn " data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn ">Yes, Delete It</button>
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger">Yes, Delete It</button>
         </div>
       </form>
     </div>
   </div>
 </div>
 {% endfor %}
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4" defer></script>
-  <script src="{% static 'js/transaction_charts.js' %}" defer></script>
-  <script src="/static/js/transaction_filters.js"></script>
-{% endblock content %}
+{% endblock %}

@@ -493,11 +493,20 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
   color: #5d6d7e;
 }
 
+.glass-table .description-col {
+  font-style: italic;
+  font-weight: 700;
+  color: #5d6d7e;
+}
+
 .glass-table .amount-col {
   font-weight: 700;
   font-size: 15px;
   font-family: 'Nunito', sans-serif;
 }
+
+.modal-backdrop { z-index: 19990 !important; }
+.modal { z-index: 20000 !important; }
 
 /* Income/Expense color coding for amount */
 .glass-table .amount-income {
@@ -642,4 +651,19 @@ footer{font-size:.9rem; opacity:.8; padding-block:24px}
   display: block;
   width: 100% !important;
   height: 100% !important;
+}
+
+.filters-row { position: relative; z-index: 4000; }  /* above glass table (z:999) */
+.filter-popover {
+  position: absolute;
+  z-index: 5000;            /* ensure visible over .glass */
+  margin-top: 2rem;
+  padding: 1rem;
+  width: 280px;
+  background:white;
+  border:1px solid var(--glass-stroke);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
 }
